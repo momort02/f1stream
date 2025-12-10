@@ -119,7 +119,7 @@
                 "posterUrl": "https://www.themoviedb.org/t/p/w3840_and_h2160_multi_faces/lSbblLngbeZIn6G4WXDcyQ6SLhw.jpg"
             },
             {
-                "title": "Blue Beetle",
+                "title": "Agent presque secret",
                 "videoUrl": "https://cinefries.xyz/movies/Agents-presque-secrets.mp4",
                 "posterUrl": "https://www.themoviedb.org/t/p/original/12168YxdkIgBBcmfNLWO2PI6aXE.jpg"
             }
@@ -128,6 +128,21 @@
         const grid = document.getElementById('filmsGrid');
         const videoModal = document.getElementById('videoModal');
         const videoPlayer = document.getElementById('videoPlayer');
+    
+        // Sauvegarder progression
+videoPlayer.addEventListener('timeupdate', () => {
+    if (videoPlayer.currentTime > 5) { 
+        localStorage.setItem(videoPlayer.src, videoPlayer.currentTime);
+    }
+});
+
+// Reprendre progression si existante
+videoPlayer.addEventListener('loadedmetadata', () => {
+    const savedTime = localStorage.getItem(videoPlayer.src);
+    if (savedTime) {
+        videoPlayer.currentTime = parseFloat(savedTime);
+    }
+});
 
         films.forEach(film => {
             const card = document.createElement('div');
@@ -141,9 +156,9 @@
         });
 
         function openVideo(videoUrl) {
-            videoPlayer.src = videoUrl;
-            videoModal.classList.add('active');
-        }
+    videoPlayer.src = videoUrl;
+    videoModal.classList.add('active');
+}
 
         function closeVideo() {
             videoModal.classList.remove('active');
