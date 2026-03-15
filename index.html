@@ -3,748 +3,10 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>F1 LIVE — Design Model</title>
+<title>F1 LIVE</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,500;0,700;0,900;1,700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet"/>
-<style>
-/* ═══════════════════════════════════════════════════════
-   VARIABLES & RESET
-═══════════════════════════════════════════════════════ */
-:root {
-  --red:        #E8002D;
-  --red-dim:    rgba(232,0,45,.12);
-  --red-glow:   rgba(232,0,45,.35);
-  --gold:       #C9A84C;
-  --silver:     #A8A9AD;
-  --bronze:     #8B5E3C;
-  --bg:         #080808;
-  --bg1:        #0e0e0e;
-  --bg2:        #141414;
-  --bg3:        #1c1c1c;
-  --bg4:        #242424;
-  --line:       rgba(255,255,255,.06);
-  --text:       #f0f0f0;
-  --muted:      #606060;
-  --subtle:     #383838;
-  --font-disp:  'Barlow Condensed', sans-serif;
-  --font-body:  'Barlow', sans-serif;
-  --nav-h:      58px;
-  --ease:       cubic-bezier(.16,1,.3,1);
-}
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{
-  font-family:var(--font-body);
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
-  overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
-}
-::-webkit-scrollbar{width:4px;}
-::-webkit-scrollbar-track{background:#0e0e0e;}
-::-webkit-scrollbar-thumb{background:#2a2a2a;border-radius:2px;}
-
-/* ═══════════════════════════════════════════════════════
-   NAV
-═══════════════════════════════════════════════════════ */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:200;
-  height:var(--nav-h);
-  display:flex;align-items:center;
-  padding:0 32px;
-  background:rgba(8,8,8,.92);
-  backdrop-filter:blur(20px) saturate(180%);
-  border-bottom:1px solid var(--line);
-}
-.nav-logo{
-  display:flex;align-items:baseline;gap:10px;
-  cursor:pointer;margin-right:auto;
-}
-.nav-logo-f1{
-  font-family:var(--font-disp);
-  font-size:28px;font-weight:900;
-  color:var(--red);letter-spacing:-1px;
-  line-height:1;
-}
-.nav-logo-live{
-  font-family:var(--font-disp);
-  font-size:11px;font-weight:500;
-  color:var(--muted);letter-spacing:5px;
-  text-transform:uppercase;
-}
-.nav-items{display:flex;gap:2px;align-items:center;}
-.nav-item{
-  font-family:var(--font-disp);
-  font-size:13px;font-weight:500;
-  letter-spacing:1.5px;text-transform:uppercase;
-  color:var(--muted);
-  padding:8px 14px;border:none;background:none;
-  cursor:pointer;border-radius:3px;
-  transition:color .2s,background .2s;
-  position:relative;
-}
-.nav-item:hover{color:var(--text);background:rgba(255,255,255,.04);}
-.nav-item.active{color:var(--text);}
-.nav-item.active::after{
-  content:'';position:absolute;bottom:-1px;left:14px;right:14px;
-  height:2px;background:var(--red);
-}
-.nav-live-btn{
-  margin-left:16px;
-  font-family:var(--font-disp);
-  font-size:12px;font-weight:700;
-  letter-spacing:2px;text-transform:uppercase;
-  color:white;
-  padding:9px 20px;
-  background:var(--red);
-  border:none;cursor:pointer;
-  border-radius:2px;
-  transition:opacity .2s,box-shadow .2s;
-  display:flex;align-items:center;gap:8px;
-}
-.nav-live-btn:hover{opacity:.88;box-shadow:0 0 24px var(--red-glow);}
-.nav-dot{width:7px;height:7px;background:#fff;border-radius:50%;animation:pulse 2s infinite;}
-.nav-auth{
-  margin-left:10px;
-  font-family:var(--font-disp);
-  font-size:12px;font-weight:500;
-  letter-spacing:1.5px;text-transform:uppercase;
-  color:var(--muted);
-  padding:9px 18px;
-  background:none;
-  border:1px solid var(--subtle);
-  cursor:pointer;border-radius:2px;
-  transition:all .2s;
-}
-.nav-auth:hover{color:var(--text);border-color:var(--text);}
-
-/* ═══════════════════════════════════════════════════════
-   PAGES
-═══════════════════════════════════════════════════════ */
-.page{display:none;padding-top:var(--nav-h);min-height:100vh;}
-.page.active{display:block;}
-
-/* ═══════════════════════════════════════════════════════
-   HOME — HERO
-═══════════════════════════════════════════════════════ */
-.hero{
-  position:relative;
-  min-height:calc(100vh - var(--nav-h));
-  display:flex;flex-direction:column;
-  justify-content:flex-end;
-  padding:0 64px 72px;
-  overflow:hidden;
-}
-/* Grille décorative */
-.hero-grid{
-  position:absolute;inset:0;
-  background-image:
-    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
-  background-size:60px 60px;
-  mask-image:linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%);
-  animation:gridDrift 20s linear infinite;
-}
-/* Lumière rouge ambiante */
-.hero-ambient{
-  position:absolute;
-  width:700px;height:700px;
-  border-radius:50%;
-  background:radial-gradient(circle, rgba(232,0,45,.18) 0%, transparent 70%);
-  top:-200px;right:-100px;
-  animation:ambientFloat 8s ease-in-out infinite alternate;
-  pointer-events:none;
-}
-.hero-ambient2{
-  position:absolute;
-  width:400px;height:400px;
-  border-radius:50%;
-  background:radial-gradient(circle, rgba(232,0,45,.08) 0%, transparent 70%);
-  bottom:100px;left:200px;
-  animation:ambientFloat 12s ease-in-out infinite alternate-reverse;
-  pointer-events:none;
-}
-/* Race number décoratif */
-.hero-bg-number{
-  position:absolute;right:-40px;top:50%;transform:translateY(-50%);
-  font-family:var(--font-disp);font-size:clamp(300px,40vw,520px);
-  font-weight:900;font-style:italic;
-  color:rgba(255,255,255,.022);
-  line-height:1;pointer-events:none;user-select:none;
-  letter-spacing:-20px;
-}
-.hero-eyebrow{
-  font-family:var(--font-disp);
-  font-size:12px;font-weight:500;
-  letter-spacing:5px;text-transform:uppercase;
-  color:var(--red);
-  margin-bottom:16px;
-  display:flex;align-items:center;gap:12px;
-  animation:fadeSlideUp .8s var(--ease) both;
-}
-.hero-eyebrow::before{content:'';width:32px;height:1px;background:var(--red);}
-.hero-title{
-  font-family:var(--font-disp);
-  font-size:clamp(72px,12vw,148px);
-  font-weight:900;font-style:italic;
-  line-height:.9;letter-spacing:-3px;
-  color:var(--text);
-  animation:fadeSlideUp .8s .1s var(--ease) both;
-}
-.hero-title span{color:var(--red);}
-.hero-desc{
-  font-size:16px;font-weight:300;
-  color:var(--muted);
-  max-width:480px;
-  margin-top:20px;line-height:1.7;
-  animation:fadeSlideUp .8s .2s var(--ease) both;
-}
-.hero-ctas{
-  display:flex;gap:14px;margin-top:40px;
-  animation:fadeSlideUp .8s .3s var(--ease) both;
-}
-.cta-primary{
-  font-family:var(--font-disp);font-size:13px;font-weight:700;
-  letter-spacing:2px;text-transform:uppercase;
-  color:white;padding:16px 36px;
-  background:var(--red);border:none;cursor:pointer;
-  border-radius:2px;
-  transition:box-shadow .25s,transform .2s;
-  display:flex;align-items:center;gap:10px;
-}
-.cta-primary:hover{box-shadow:0 0 40px var(--red-glow);transform:translateY(-1px);}
-.cta-secondary{
-  font-family:var(--font-disp);font-size:13px;font-weight:500;
-  letter-spacing:2px;text-transform:uppercase;
-  color:var(--text);padding:16px 32px;
-  background:transparent;
-  border:1px solid var(--subtle);
-  cursor:pointer;border-radius:2px;
-  transition:border-color .2s,background .2s;
-}
-.cta-secondary:hover{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.04);}
-/* Stat bar en bas du hero */
-.hero-stats{
-  position:absolute;bottom:0;left:0;right:0;
-  height:72px;
-  border-top:1px solid var(--line);
-  display:flex;
-  background:rgba(8,8,8,.7);
-  backdrop-filter:blur(10px);
-  animation:fadeSlideUp .8s .4s var(--ease) both;
-}
-.hero-stat{
-  flex:1;display:flex;flex-direction:column;
-  justify-content:center;padding:0 32px;
-  border-right:1px solid var(--line);
-}
-.hero-stat:last-child{border-right:none;}
-.stat-val{
-  font-family:var(--font-disp);font-size:28px;font-weight:700;
-  color:var(--text);letter-spacing:-0.5px;line-height:1;
-}
-.stat-val span{color:var(--red);font-size:14px;margin-left:2px;}
-.stat-lbl{font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:3px;}
-
-/* ═══════════════════════════════════════════════════════
-   PLAYER PAGE
-═══════════════════════════════════════════════════════ */
-#page-player.active{display:flex;flex-direction:column;}
-.player-shell{
-  display:flex;
-  height:calc(100vh - var(--nav-h));
-}
-.player-main{
-  flex:1;background:#000;
-  display:flex;flex-direction:column;
-}
-.player-video-wrap{
-  flex:1;position:relative;
-  display:flex;align-items:center;justify-content:center;
-  background:#000;
-}
-.player-video-wrap video{width:100%;height:100%;object-fit:contain;}
-.player-overlay-badge{
-  position:absolute;top:16px;left:16px;
-  display:flex;align-items:center;gap:8px;
-  background:rgba(8,8,8,.85);
-  padding:6px 14px;border-radius:2px;
-  backdrop-filter:blur(8px);
-  font-family:var(--font-disp);font-size:11px;font-weight:700;
-  letter-spacing:2px;text-transform:uppercase;color:white;
-}
-.live-dot{width:8px;height:8px;background:var(--red);border-radius:50%;animation:pulse 1.5s infinite;}
-.player-bar{
-  height:50px;background:var(--bg1);
-  border-top:1px solid var(--line);
-  display:flex;align-items:center;
-  padding:0 20px;gap:16px;
-}
-.player-bar-title{
-  font-family:var(--font-disp);font-size:13px;font-weight:500;
-  letter-spacing:1px;color:var(--muted);flex:1;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-}
-/* CHAT */
-.chat-panel{
-  width:320px;min-width:280px;
-  display:flex;flex-direction:column;
-  background:var(--bg1);
-  border-left:1px solid var(--line);
-}
-.chat-top{
-  padding:16px 20px;
-  border-bottom:1px solid var(--line);
-  display:flex;align-items:center;justify-content:space-between;
-}
-.chat-top-title{
-  font-family:var(--font-disp);font-size:14px;font-weight:700;
-  letter-spacing:2px;text-transform:uppercase;
-  color:var(--text);
-}
-.chat-live-pill{
-  font-size:10px;font-weight:500;letter-spacing:1px;
-  color:var(--red);
-  border:1px solid rgba(232,0,45,.3);
-  padding:3px 8px;border-radius:20px;
-  display:flex;align-items:center;gap:5px;
-}
-.chat-feed{
-  flex:1;overflow-y:auto;padding:16px;
-  display:flex;flex-direction:column;gap:14px;
-}
-.chat-feed::-webkit-scrollbar{width:3px;}
-.chat-feed::-webkit-scrollbar-thumb{background:var(--subtle);}
-.chat-msg{display:flex;flex-direction:column;gap:3px;}
-.chat-msg-row{display:flex;align-items:baseline;gap:8px;}
-.chat-user{
-  font-family:var(--font-disp);font-size:12px;font-weight:700;
-  color:var(--red);letter-spacing:.5px;
-}
-.chat-user.own{color:#5b9cf6;}
-.chat-time{font-size:10px;color:var(--muted);}
-.chat-text{font-size:13px;color:rgba(240,240,240,.75);line-height:1.5;word-break:break-word;}
-.chat-wall{
-  padding:20px;border-top:1px solid var(--line);
-  display:flex;flex-direction:column;gap:10px;align-items:center;
-}
-.chat-wall p{font-size:12px;color:var(--muted);text-align:center;line-height:1.7;}
-.chat-wall-btn{
-  width:100%;padding:12px;
-  font-family:var(--font-disp);font-size:12px;font-weight:700;
-  letter-spacing:2px;text-transform:uppercase;
-  color:white;background:var(--red);border:none;cursor:pointer;
-  border-radius:2px;transition:opacity .2s;
-}
-.chat-wall-btn:hover{opacity:.85;}
-.chat-input-row{
-  padding:12px 14px;border-top:1px solid var(--line);
-  display:flex;gap:8px;
-}
-.chat-input{
-  flex:1;background:var(--bg3);
-  border:1px solid var(--line);
-  border-radius:2px;
-  color:var(--text);
-  font-family:var(--font-body);font-size:13px;
-  padding:9px 14px;outline:none;
-  transition:border-color .2s;
-}
-.chat-input:focus{border-color:rgba(232,0,45,.4);}
-.chat-input::placeholder{color:var(--muted);}
-.chat-send{
-  padding:9px 14px;
-  background:var(--red);border:none;
-  color:white;font-size:16px;cursor:pointer;
-  border-radius:2px;transition:opacity .2s;
-}
-.chat-send:hover{opacity:.85;}
-
-/* ═══════════════════════════════════════════════════════
-   LAYOUT COMMUN — SECTIONS
-═══════════════════════════════════════════════════════ */
-.page-header{
-  padding:52px 64px 40px;
-  border-bottom:1px solid var(--line);
-}
-.page-eyebrow{
-  font-family:var(--font-disp);font-size:11px;font-weight:500;
-  letter-spacing:5px;text-transform:uppercase;
-  color:var(--red);margin-bottom:10px;
-}
-.page-title{
-  font-family:var(--font-disp);font-size:52px;font-weight:900;font-style:italic;
-  letter-spacing:-1px;line-height:1;color:var(--text);
-}
-.page-content{padding:40px 64px 80px;}
-
-/* ═══════════════════════════════════════════════════════
-   CALENDRIER
-═══════════════════════════════════════════════════════ */
-.cal-grid{display:flex;flex-direction:column;gap:1px;background:var(--line);}
-.cal-row{
-  display:grid;
-  grid-template-columns: 48px 1fr 200px 180px 160px;
-  align-items:center;
-  background:var(--bg);
-  padding:20px 24px;
-  gap:24px;
-  transition:background .2s;
-  cursor:default;
-}
-.cal-row:hover{background:var(--bg2);}
-.cal-row.next{background:var(--bg1);border-left:3px solid var(--red);}
-.cal-row.past{opacity:.38;}
-.cal-row.header{
-  background:var(--bg1);padding:10px 24px;
-  font-family:var(--font-disp);font-size:10px;font-weight:500;
-  letter-spacing:3px;text-transform:uppercase;color:var(--muted);
-  cursor:default;
-}
-.cal-row.header:hover{background:var(--bg1);}
-.cal-round{
-  font-family:var(--font-disp);font-size:13px;font-weight:700;
-  color:var(--muted);
-}
-.cal-row.next .cal-round{color:var(--red);}
-.cal-name-wrap{display:flex;flex-direction:column;gap:3px;}
-.cal-name{
-  font-family:var(--font-disp);font-size:18px;font-weight:700;
-  color:var(--text);line-height:1;
-}
-.cal-circuit{font-size:12px;color:var(--muted);}
-.cal-flag{font-size:22px;}
-.cal-date{font-size:13px;color:var(--muted);}
-.cal-row.next .cal-date{color:var(--text);}
-.cal-badge{
-  font-family:var(--font-disp);font-size:10px;font-weight:700;
-  letter-spacing:2px;text-transform:uppercase;
-  color:var(--red);
-  border:1px solid rgba(232,0,45,.3);
-  padding:4px 10px;border-radius:2px;
-  display:inline-block;
-}
-.notif-icon{
-  font-size:16px;opacity:.35;cursor:pointer;
-  transition:opacity .2s,transform .2s;
-  background:none;border:none;color:white;
-}
-.notif-icon:hover{opacity:1;transform:scale(1.15);}
-
-/* ═══════════════════════════════════════════════════════
-   ÉQUIPES
-═══════════════════════════════════════════════════════ */
-.teams-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
-  gap:1px;background:var(--line);
-}
-.team-card{
-  background:var(--bg);
-  padding:28px;
-  transition:background .2s;
-  cursor:default;
-  position:relative;overflow:hidden;
-}
-.team-card:hover{background:var(--bg2);}
-.team-card::before{
-  content:'';
-  position:absolute;top:0;left:0;right:0;height:3px;
-  background:var(--team-color, #555);
-}
-.team-card-inner{display:flex;flex-direction:column;gap:20px;}
-.team-head{display:flex;align-items:flex-start;justify-content:space-between;}
-.team-name{
-  font-family:var(--font-disp);font-size:24px;font-weight:900;
-  font-style:italic;letter-spacing:-0.5px;
-  color:var(--text);line-height:1;
-}
-.team-engine{
-  font-size:11px;color:var(--muted);
-  letter-spacing:1px;margin-top:4px;
-}
-.team-pos{
-  font-family:var(--font-disp);font-size:44px;font-weight:900;
-  color:rgba(255,255,255,.06);line-height:1;font-style:italic;
-}
-.team-drivers-row{display:flex;gap:20px;}
-.team-driver{display:flex;align-items:center;gap:10px;}
-.team-driver-flag{font-size:18px;}
-.team-driver-name{font-size:14px;color:rgba(240,240,240,.75);}
-.team-driver-num{
-  font-family:var(--font-disp);font-size:13px;font-weight:700;
-  color:rgba(255,255,255,.2);margin-left:auto;
-}
-.team-note{
-  font-size:11px;color:var(--muted);line-height:1.6;
-  padding-top:16px;border-top:1px solid var(--line);
-}
-
-/* ═══════════════════════════════════════════════════════
-   CLASSEMENT
-═══════════════════════════════════════════════════════ */
-.standings-tabs{
-  display:flex;gap:0;
-  border-bottom:1px solid var(--line);
-  padding:0 64px;
-}
-.standings-tab{
-  font-family:var(--font-disp);font-size:13px;font-weight:500;
-  letter-spacing:2px;text-transform:uppercase;
-  color:var(--muted);padding:16px 24px;
-  background:none;border:none;cursor:pointer;
-  border-bottom:2px solid transparent;
-  margin-bottom:-1px;transition:all .2s;
-}
-.standings-tab.active{color:var(--text);border-bottom-color:var(--red);}
-.standings-tab:hover:not(.active){color:var(--text);}
-.standings-list{display:flex;flex-direction:column;gap:1px;background:var(--line);}
-.standing-row{
-  display:grid;
-  grid-template-columns:56px 48px 1fr 80px 100px;
-  align-items:center;
-  background:var(--bg);padding:16px 24px;gap:16px;
-  transition:background .2s;
-}
-.standing-row:hover{background:var(--bg2);}
-.standing-row.header{
-  background:var(--bg1);padding:10px 24px;
-  font-family:var(--font-disp);font-size:10px;
-  letter-spacing:3px;text-transform:uppercase;color:var(--muted);
-}
-.standing-row.header:hover{background:var(--bg1);}
-.s-pos{
-  font-family:var(--font-disp);font-size:20px;font-weight:700;
-  color:var(--muted);
-}
-.s-pos.p1{color:var(--gold);}
-.s-pos.p2{color:var(--silver);}
-.s-pos.p3{color:var(--bronze);}
-.s-flag{font-size:20px;}
-.s-name-wrap{display:flex;flex-direction:column;gap:2px;}
-.s-name{
-  font-family:var(--font-disp);font-size:18px;font-weight:700;
-  color:var(--text);
-}
-.s-team{font-size:11px;color:var(--muted);}
-.s-wins{
-  font-family:var(--font-disp);font-size:16px;font-weight:700;
-  color:var(--muted);text-align:right;
-}
-.s-pts{
-  font-family:var(--font-disp);font-size:22px;font-weight:900;
-  color:var(--text);text-align:right;
-}
-.s-pts span{font-size:11px;color:var(--muted);font-weight:400;margin-left:2px;}
-/* Barre de points */
-.pts-bar-wrap{grid-column:1/-1;padding:0 0 4px;}
-.pts-bar{height:2px;background:var(--bg3);border-radius:1px;overflow:hidden;}
-.pts-bar-fill{height:100%;border-radius:1px;transition:width 1s var(--ease);}
-
-/* ═══════════════════════════════════════════════════════
-   PARAMÈTRES
-═══════════════════════════════════════════════════════ */
-.settings-layout{
-  display:grid;grid-template-columns:220px 1fr;
-  min-height:calc(100vh - var(--nav-h) - 140px);
-}
-.settings-nav{
-  border-right:1px solid var(--line);
-  padding:32px 0;
-}
-.settings-nav-item{
-  display:flex;align-items:center;gap:14px;
-  padding:13px 32px;
-  font-family:var(--font-disp);font-size:13px;font-weight:500;
-  letter-spacing:1.5px;text-transform:uppercase;
-  color:var(--muted);cursor:pointer;
-  border-left:2px solid transparent;
-  transition:all .2s;
-}
-.settings-nav-item:hover{color:var(--text);background:rgba(255,255,255,.02);}
-.settings-nav-item.active{color:var(--text);border-left-color:var(--red);background:rgba(232,0,45,.05);}
-.settings-nav-icon{font-size:16px;opacity:.7;}
-.settings-body{padding:40px 48px;}
-.settings-section{margin-bottom:48px;}
-.settings-section-title{
-  font-family:var(--font-disp);font-size:11px;font-weight:500;
-  letter-spacing:4px;text-transform:uppercase;
-  color:var(--muted);margin-bottom:20px;
-  padding-bottom:12px;border-bottom:1px solid var(--line);
-}
-.settings-field{margin-bottom:20px;}
-.settings-label{
-  display:block;font-size:13px;font-weight:500;
-  color:rgba(240,240,240,.6);margin-bottom:8px;
-}
-.settings-input{
-  width:100%;background:var(--bg2);
-  border:1px solid var(--line);
-  color:var(--text);font-family:var(--font-body);font-size:14px;
-  padding:13px 16px;outline:none;
-  border-radius:2px;
-  transition:border-color .2s;
-}
-.settings-input:focus{border-color:rgba(232,0,45,.4);}
-.settings-input::placeholder{color:var(--muted);}
-textarea.settings-input{resize:vertical;min-height:90px;}
-.settings-btns{display:flex;gap:12px;margin-top:8px;}
-.settings-btn-primary{
-  font-family:var(--font-disp);font-size:12px;font-weight:700;
-  letter-spacing:2px;text-transform:uppercase;
-  color:white;padding:13px 28px;
-  background:var(--red);border:none;cursor:pointer;
-  border-radius:2px;transition:opacity .2s;
-}
-.settings-btn-primary:hover{opacity:.85;}
-.settings-btn-ghost{
-  font-family:var(--font-disp);font-size:12px;font-weight:500;
-  letter-spacing:2px;text-transform:uppercase;
-  color:var(--muted);padding:13px 24px;
-  background:none;border:1px solid var(--subtle);cursor:pointer;
-  border-radius:2px;transition:all .2s;
-}
-.settings-btn-ghost:hover{color:var(--text);border-color:rgba(255,255,255,.2);}
-.settings-format-list{display:flex;flex-direction:column;gap:8px;}
-.settings-format-item{
-  display:flex;align-items:center;gap:10px;
-  font-size:13px;padding:10px 0;
-  border-bottom:1px solid var(--line);
-  color:rgba(240,240,240,.55);
-}
-.settings-format-item.ok{color:rgba(240,240,240,.75);}
-.settings-format-dot{width:6px;height:6px;border-radius:50%;background:var(--subtle);flex-shrink:0;}
-.settings-format-item.ok .settings-format-dot{background:#3cb371;}
-
-/* ═══════════════════════════════════════════════════════
-   MODAL AUTH
-═══════════════════════════════════════════════════════ */
-.modal-backdrop{
-  position:fixed;inset:0;z-index:500;
-  background:rgba(0,0,0,.88);
-  backdrop-filter:blur(8px);
-  display:flex;align-items:center;justify-content:center;
-  opacity:0;pointer-events:none;
-  transition:opacity .25s;
-}
-.modal-backdrop.open{opacity:1;pointer-events:all;}
-.modal{
-  background:var(--bg1);
-  width:100%;max-width:420px;
-  border:1px solid var(--line);
-  border-top:2px solid var(--red);
-  padding:44px;
-  position:relative;
-  animation:fadeSlideUp .3s var(--ease);
-}
-.modal-close{
-  position:absolute;top:16px;right:16px;
-  background:none;border:none;color:var(--muted);
-  font-size:18px;cursor:pointer;
-  transition:color .2s;
-}
-.modal-close:hover{color:var(--text);}
-.modal-eyebrow{
-  font-family:var(--font-disp);font-size:10px;font-weight:500;
-  letter-spacing:4px;text-transform:uppercase;
-  color:var(--red);margin-bottom:8px;
-}
-.modal-title{
-  font-family:var(--font-disp);font-size:32px;font-weight:900;font-style:italic;
-  color:var(--text);margin-bottom:32px;
-}
-.modal-tabs{display:flex;gap:0;border-bottom:1px solid var(--line);margin-bottom:28px;}
-.modal-tab{
-  flex:1;padding:12px;
-  font-family:var(--font-disp);font-size:12px;font-weight:700;
-  letter-spacing:2px;text-transform:uppercase;
-  color:var(--muted);background:none;border:none;
-  border-bottom:2px solid transparent;margin-bottom:-1px;
-  cursor:pointer;transition:all .2s;
-}
-.modal-tab.active{color:var(--text);border-bottom-color:var(--red);}
-.modal-field{margin-bottom:16px;}
-.modal-field label{
-  display:block;font-size:11px;font-weight:500;
-  letter-spacing:2px;text-transform:uppercase;
-  color:var(--muted);margin-bottom:7px;
-}
-.modal-field input{
-  width:100%;background:var(--bg2);
-  border:1px solid var(--line);border-radius:2px;
-  color:var(--text);font-family:var(--font-body);font-size:14px;
-  padding:13px 16px;outline:none;
-  transition:border-color .2s;
-}
-.modal-field input:focus{border-color:rgba(232,0,45,.4);}
-.modal-submit{
-  width:100%;margin-top:24px;
-  font-family:var(--font-disp);font-size:13px;font-weight:700;
-  letter-spacing:2px;text-transform:uppercase;
-  color:white;padding:16px;
-  background:var(--red);border:none;cursor:pointer;
-  border-radius:2px;transition:opacity .2s,box-shadow .2s;
-}
-.modal-submit:hover{opacity:.88;box-shadow:0 4px 20px var(--red-glow);}
-.modal-err{font-size:12px;color:#ff6b6b;margin-top:12px;min-height:18px;}
-
-/* ═══════════════════════════════════════════════════════
-   TOAST
-═══════════════════════════════════════════════════════ */
-.toast{
-  position:fixed;bottom:32px;right:32px;z-index:999;
-  background:var(--bg2);border:1px solid var(--line);
-  border-left:3px solid var(--red);
-  color:var(--text);font-size:13px;font-weight:500;
-  padding:14px 22px;
-  border-radius:2px;
-  transform:translateY(12px);opacity:0;
-  transition:all .3s var(--ease);
-  pointer-events:none;
-}
-.toast.show{transform:translateY(0);opacity:1;}
-
-/* ═══════════════════════════════════════════════════════
-   ANIMATIONS
-═══════════════════════════════════════════════════════ */
-@keyframes fadeSlideUp{
-  from{opacity:0;transform:translateY(20px);}
-  to{opacity:1;transform:translateY(0);}
-}
-@keyframes gridDrift{
-  from{background-position:0 0;}
-  to{background-position:60px 60px;}
-}
-@keyframes ambientFloat{
-  from{transform:scale(1) translate(0,0);}
-  to{transform:scale(1.15) translate(30px,-20px);}
-}
-@keyframes pulse{
-  0%,100%{opacity:1;transform:scale(1);}
-  50%{opacity:.5;transform:scale(.85);}
-}
-
-/* ═══════════════════════════════════════════════════════
-   RESPONSIVE
-═══════════════════════════════════════════════════════ */
-@media(max-width:900px){
-  .hero{padding:0 28px 140px;}
-  .page-header{padding:36px 28px 28px;}
-  .page-content{padding:28px 28px 60px;}
-  .standings-tabs{padding:0 28px;}
-  .cal-row{grid-template-columns:36px 1fr 140px;gap:14px;}
-  .cal-row>*:nth-child(4),.cal-row>*:nth-child(5){display:none;}
-  .teams-grid{grid-template-columns:1fr;}
-  .player-shell{flex-direction:column;}
-  .chat-panel{width:100%;min-width:unset;height:320px;border-left:none;border-top:1px solid var(--line);}
-  .settings-layout{grid-template-columns:1fr;}
-  .settings-nav{border-right:none;border-bottom:1px solid var(--line);padding:16px 0;display:flex;overflow-x:auto;}
-  .settings-nav-item{padding:10px 20px;white-space:nowrap;}
-  nav{padding:0 16px;}
-  .nav-logo-live{display:none;}
-}
-</style>
+<link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 
@@ -778,30 +40,14 @@ textarea.settings-input{resize:vertical;min-height:90px;}
     <h1 class="hero-title">FORMULE <span>1</span><br>EN DIRECT</h1>
     <p class="hero-desc">Stream live, tchat en temps réel, calendrier complet et actualités de la saison 2026.</p>
     <div class="hero-ctas">
-      <button class="cta-primary" onclick="showPage('player')">
-        <span>▶</span> Regarder maintenant
-      </button>
-      <button class="cta-secondary" onclick="showPage('calendar')">
-        Calendrier 2026
-      </button>
+      <button class="cta-primary" onclick="showPage('player')"><span>▶</span> Regarder maintenant</button>
+      <button class="cta-secondary" onclick="showPage('calendar')">Calendrier 2026</button>
     </div>
     <div class="hero-stats">
-      <div class="hero-stat">
-        <div class="stat-val">23<span>GP</span></div>
-        <div class="stat-lbl">Courses</div>
-      </div>
-      <div class="hero-stat">
-        <div class="stat-val">11<span>Écuries</span></div>
-        <div class="stat-lbl">Constructeurs</div>
-      </div>
-      <div class="hero-stat">
-        <div class="stat-val">22<span>Pilotes</span></div>
-        <div class="stat-lbl">Titulaires</div>
-      </div>
-      <div class="hero-stat">
-        <div class="stat-val" id="next-race-stat">—</div>
-        <div class="stat-lbl">Prochaine course</div>
-      </div>
+      <div class="hero-stat"><div class="stat-val">23<span>GP</span></div><div class="stat-lbl">Courses</div></div>
+      <div class="hero-stat"><div class="stat-val">11<span>Écuries</span></div><div class="stat-lbl">Constructeurs</div></div>
+      <div class="hero-stat"><div class="stat-val">22<span>Pilotes</span></div><div class="stat-lbl">Titulaires</div></div>
+      <div class="hero-stat"><div class="stat-val" id="next-race-stat">—</div><div class="stat-lbl">Prochaine course</div></div>
     </div>
   </div>
 </div>
@@ -811,12 +57,8 @@ textarea.settings-input{resize:vertical;min-height:90px;}
   <div class="player-shell">
     <div class="player-main">
       <div class="player-video-wrap">
-        <video id="video-el" controls playsinline>
-          <source src="" type="application/x-mpegURL"/>
-        </video>
-        <div class="player-overlay-badge">
-          <span class="live-dot"></span> EN DIRECT
-        </div>
+        <video id="video-el" controls playsinline><source src="" type="application/x-mpegURL"/></video>
+        <div class="player-overlay-badge"><span class="live-dot"></span> EN DIRECT</div>
       </div>
       <div class="player-bar">
         <span class="player-bar-title" id="player-bar-url">Chargement du flux...</span>
@@ -828,10 +70,7 @@ textarea.settings-input{resize:vertical;min-height:90px;}
         <span class="chat-live-pill"><span class="live-dot"></span> En direct</span>
       </div>
       <div class="chat-feed" id="chat-feed">
-        <!-- messages injectés ici -->
-        <div style="text-align:center;color:var(--muted);font-size:12px;padding:20px 0">
-          Connexion au tchat...
-        </div>
+        <div style="text-align:center;color:var(--muted);font-size:12px;padding:20px 0">Connexion au tchat...</div>
       </div>
       <div id="chat-wall" class="chat-wall">
         <p>Connecte-toi pour participer<br>au tchat en direct.</p>
@@ -869,10 +108,12 @@ textarea.settings-input{resize:vertical;min-height:90px;}
   </div>
   <div class="standings-tabs">
     <button class="standings-tab active" onclick="switchStandings('drivers',this)">Pilotes</button>
-    <button class="standings-tab" onclick="switchStandings('constructors',this)">Constructeurs</button>
+    <button class="standings-tab"        onclick="switchStandings('constructors',this)">Constructeurs</button>
   </div>
   <div class="page-content">
-    <div id="standings-content"><div class="loading" style="color:var(--muted);padding:60px;text-align:center">Chargement...</div></div>
+    <div id="standings-content">
+      <div style="color:var(--muted);padding:60px;text-align:center">Chargement...</div>
+    </div>
   </div>
 </div>
 
@@ -880,7 +121,7 @@ textarea.settings-input{resize:vertical;min-height:90px;}
 <div class="page" id="page-teams">
   <div class="page-header">
     <div class="page-eyebrow">Saison 2026</div>
-    <h2 class="page-title">ÉCURIES & PILOTES</h2>
+    <h2 class="page-title">ÉCURIES &amp; PILOTES</h2>
   </div>
   <div class="page-content">
     <div class="teams-grid" id="teams-grid"></div>
@@ -895,18 +136,11 @@ textarea.settings-input{resize:vertical;min-height:90px;}
   </div>
   <div class="settings-layout">
     <div class="settings-nav">
-      <div class="settings-nav-item active" onclick="switchSettings('stream',this)">
-        <span class="settings-nav-icon">📡</span> Stream
-      </div>
-      <div class="settings-nav-item" onclick="switchSettings('account',this)">
-        <span class="settings-nav-icon">👤</span> Compte
-      </div>
-      <div class="settings-nav-item" onclick="switchSettings('notifs',this)">
-        <span class="settings-nav-icon">🔔</span> Notifications
-      </div>
+      <div class="settings-nav-item active" onclick="switchSettings('stream',this)"><span class="settings-nav-icon">📡</span> Stream</div>
+      <div class="settings-nav-item"        onclick="switchSettings('account',this)"><span class="settings-nav-icon">👤</span> Compte</div>
+      <div class="settings-nav-item"        onclick="switchSettings('notifs',this)"><span class="settings-nav-icon">🔔</span> Notifications</div>
     </div>
     <div class="settings-body">
-      <!-- Stream -->
       <div id="s-stream" class="settings-section">
         <div class="settings-section-title">URL du stream</div>
         <div class="settings-field">
@@ -915,29 +149,26 @@ textarea.settings-input{resize:vertical;min-height:90px;}
         </div>
         <div class="settings-btns">
           <button class="settings-btn-primary" onclick="saveUrl()">Enregistrer</button>
-          <button class="settings-btn-ghost" onclick="resetUrl()">Réinitialiser</button>
+          <button class="settings-btn-ghost"   onclick="resetUrl()">Réinitialiser</button>
         </div>
         <div class="settings-section-title" style="margin-top:36px">Formats supportés</div>
         <div class="settings-format-list">
           <div class="settings-format-item ok"><span class="settings-format-dot"></span> HLS (.m3u8)</div>
           <div class="settings-format-item ok"><span class="settings-format-dot"></span> MP4 direct</div>
           <div class="settings-format-item ok"><span class="settings-format-dot"></span> RTSP</div>
-          <div class="settings-format-item"><span class="settings-format-dot"></span> DRM / Widevine — non supporté</div>
+          <div class="settings-format-item">  <span class="settings-format-dot"></span> DRM / Widevine — non supporté</div>
         </div>
       </div>
-      <!-- Compte -->
       <div id="s-account" class="settings-section" style="display:none">
         <div class="settings-section-title">Informations du compte</div>
-        <div id="s-account-content">
-          <p style="font-size:14px;color:var(--muted)">Connecte-toi pour accéder aux paramètres de ton compte.</p>
-          <button class="settings-btn-primary" style="margin-top:20px" onclick="openModal()">Se connecter</button>
-        </div>
+        <p style="font-size:14px;color:var(--muted)">Connecte-toi pour accéder aux paramètres de ton compte.</p>
+        <button class="settings-btn-primary" style="margin-top:20px" onclick="openModal()">Se connecter</button>
       </div>
-      <!-- Notifs -->
       <div id="s-notifs" class="settings-section" style="display:none">
         <div class="settings-section-title">Notifications de courses</div>
         <p style="font-size:14px;color:var(--muted);line-height:1.7">
-          Active les notifications depuis la page <strong style="color:var(--text)">Calendrier</strong> en appuyant sur l'icône 🔔 à côté de chaque course.
+          Active les notifications depuis la page <strong style="color:var(--text)">Calendrier</strong>
+          en appuyant sur l'icône 🔔 à côté de chaque course.
           Deux alertes sont planifiées : 30 minutes avant et au départ exact.
         </p>
       </div>
@@ -974,13 +205,14 @@ textarea.settings-input{resize:vertical;min-height:90px;}
 
 <div class="toast" id="toast"></div>
 
-<!-- ════ FIREBASE MODULE ════ -->
+<!-- ════ FIREBASE ════ -->
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getDatabase, ref, push, query, limitToLast, onChildAdded, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { initializeApp }                                                    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+         signOut, onAuthStateChanged, updateProfile }                       from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getDatabase, ref, push, query, limitToLast, onChildAdded }        from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-// ⚠ Remplace par ta config Firebase
+// ⚠ REMPLACE PAR TA CONFIG FIREBASE
 const firebaseConfig = {
     apiKey: "AIzaSyDvAhUsJvrWLRjwCeq7QilNrDjKA9GwyZs",
     authDomain: "f1stream-da688.firebaseapp.com",
@@ -989,390 +221,85 @@ const firebaseConfig = {
     messagingSenderId: "441537027233",
     appId: "1:441537027233:web:07015d05f469369f2e24e0"
   };
-const app  = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db   = getDatabase(app);
+const app=initializeApp(firebaseConfig), auth=getAuth(app), db=getDatabase(app);
+let currentUser=null, chatInited=false;
 
-let currentUser = null;
-let chatInited  = false;
-
-// AUTH STATE
 onAuthStateChanged(auth, user => {
-  currentUser = user;
-  const btn  = document.getElementById('nav-auth-btn');
-  const wall = document.getElementById('chat-wall');
-  const inp  = document.getElementById('chat-input-area');
-  if (user) {
-    btn.textContent = user.displayName || user.email.split('@')[0];
-    btn.onclick = () => { signOut(auth); showToast('Déconnecté'); };
-    wall.style.display = 'none';
-    inp.style.display  = 'flex';
+  currentUser=user;
+  const btn=document.getElementById('nav-auth-btn');
+  const wall=document.getElementById('chat-wall');
+  const inp=document.getElementById('chat-input-area');
+  if(user){
+    btn.textContent=user.displayName||user.email.split('@')[0];
+    btn.onclick=()=>{signOut(auth);showToast('Déconnecté');};
+    wall.style.display='none'; inp.style.display='flex';
   } else {
-    btn.textContent = 'Connexion';
-    btn.onclick = openModal;
-    wall.style.display = 'flex';
-    inp.style.display  = 'none';
+    btn.textContent='Connexion'; btn.onclick=openModal;
+    wall.style.display='flex'; inp.style.display='none';
   }
-  if (!chatInited) { initChat(); chatInited = true; }
+  if(!chatInited){initChat();chatInited=true;}
 });
 
-function initChat() {
-  const feed = document.getElementById('chat-feed');
-  feed.innerHTML = '';
-  const q = query(ref(db,'chat'), limitToLast(80));
-  onChildAdded(q, snap => {
-    const d = snap.val();
-    if (!d) return;
-    const own  = currentUser && d.uid === currentUser.uid;
-    const time = d.ts ? new Date(d.ts).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}) : '';
-    const el   = document.createElement('div');
-    el.className = 'chat-msg';
-    el.innerHTML = `
-      <div class="chat-msg-row">
-        <span class="chat-user${own?' own':''}">${esc(d.username)}</span>
-        <span class="chat-time">${time}</span>
-      </div>
-      <div class="chat-text">${esc(d.text)}</div>`;
-    feed.appendChild(el);
-    feed.scrollTop = feed.scrollHeight;
+function initChat(){
+  const feed=document.getElementById('chat-feed'); feed.innerHTML='';
+  onChildAdded(query(ref(db,'chat'),limitToLast(80)), snap=>{
+    const d=snap.val(); if(!d) return;
+    const own=currentUser&&d.uid===currentUser.uid;
+    const time=d.ts?new Date(d.ts).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}):'';
+    const el=document.createElement('div'); el.className='chat-msg';
+    el.innerHTML=`<div class="chat-msg-row"><span class="chat-user${own?' own':''}">${esc(d.username)}</span><span class="chat-time">${time}</span></div><div class="chat-text">${esc(d.text)}</div>`;
+    feed.appendChild(el); feed.scrollTop=feed.scrollHeight;
   });
 }
 
-window.sendMsg = () => {
-  if (!currentUser) { openModal(); return; }
-  const inp  = document.getElementById('chat-input');
-  const text = inp.value.trim();
-  if (!text) return;
-  push(ref(db,'chat'),{
-    uid:      currentUser.uid,
-    username: currentUser.displayName || currentUser.email.split('@')[0],
-    text,
-    ts: Date.now()
-  });
-  inp.value = '';
+window.sendMsg=()=>{
+  if(!currentUser){openModal();return;}
+  const inp=document.getElementById('chat-input'), text=inp.value.trim();
+  if(!text) return;
+  push(ref(db,'chat'),{uid:currentUser.uid,username:currentUser.displayName||currentUser.email.split('@')[0],text,ts:Date.now()});
+  inp.value='';
 };
 
-document.getElementById('chat-input').addEventListener('keydown', e => {
-  if (e.key === 'Enter') window.sendMsg();
-});
+document.getElementById('chat-input').addEventListener('keydown',e=>{if(e.key==='Enter')window.sendMsg();});
 
-let authMode = 'login';
-window.switchTab = mode => {
-  authMode = mode;
-  document.getElementById('tab-login')   .classList.toggle('active', mode==='login');
-  document.getElementById('tab-register').classList.toggle('active', mode==='register');
-  document.getElementById('field-username').style.display = mode==='register' ? 'block' : 'none';
-  document.getElementById('modal-submit').textContent = mode==='login' ? 'Se connecter' : "S'inscrire";
-  document.getElementById('modal-title') .textContent = mode==='login' ? 'Connexion'    : 'Inscription';
-  document.getElementById('modal-err').textContent = '';
+let authMode='login';
+window.switchTab=mode=>{
+  authMode=mode;
+  document.getElementById('tab-login').classList.toggle('active',mode==='login');
+  document.getElementById('tab-register').classList.toggle('active',mode==='register');
+  document.getElementById('field-username').style.display=mode==='register'?'block':'none';
+  document.getElementById('modal-submit').textContent=mode==='login'?'Se connecter':"S'inscrire";
+  document.getElementById('modal-title').textContent=mode==='login'?'Connexion':'Inscription';
+  document.getElementById('modal-err').textContent='';
 };
 
-window.submitAuth = async () => {
-  const email    = document.getElementById('auth-email').value.trim();
-  const password = document.getElementById('auth-password').value;
-  const username = document.getElementById('auth-username').value.trim();
-  const errEl    = document.getElementById('modal-err');
-  errEl.textContent = '';
-  if (!email || !password) { errEl.textContent = 'Email et mot de passe requis.'; return; }
-  try {
-    if (authMode === 'register') {
-      if (!username) { errEl.textContent = 'Pseudo requis.'; return; }
-      const c = await createUserWithEmailAndPassword(auth, email, password);
-      await updateProfile(c.user, { displayName: username });
-      closeModal(); showToast('Bienvenue ' + username + ' !');
+window.submitAuth=async()=>{
+  const email=document.getElementById('auth-email').value.trim();
+  const password=document.getElementById('auth-password').value;
+  const username=document.getElementById('auth-username').value.trim();
+  const errEl=document.getElementById('modal-err'); errEl.textContent='';
+  if(!email||!password){errEl.textContent='Email et mot de passe requis.';return;}
+  try{
+    if(authMode==='register'){
+      if(!username){errEl.textContent='Pseudo requis.';return;}
+      const c=await createUserWithEmailAndPassword(auth,email,password);
+      await updateProfile(c.user,{displayName:username});
+      closeModal();showToast('Bienvenue '+username+' !');
     } else {
-      await signInWithEmailAndPassword(auth, email, password);
-      closeModal(); showToast('Connecté !');
+      await signInWithEmailAndPassword(auth,email,password);
+      closeModal();showToast('Connecté !');
     }
-  } catch(e) {
-    const m = {
-      'auth/email-already-in-use':'Email déjà utilisé.',
-      'auth/weak-password':'Mot de passe trop court (6 car. min).',
-      'auth/invalid-credential':'Email ou mot de passe incorrect.',
-      'auth/user-not-found':'Aucun compte avec cet email.',
-      'auth/wrong-password':'Mot de passe incorrect.',
-    };
-    errEl.textContent = m[e.code] || e.message;
+  }catch(e){
+    const m={'auth/email-already-in-use':'Email déjà utilisé.','auth/weak-password':'Mot de passe trop court.','auth/invalid-credential':'Email ou mot de passe incorrect.'};
+    errEl.textContent=m[e.code]||e.message;
   }
 };
 
-function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 </script>
 
-<!-- ════ SCRIPTS PRINCIPAUX ════ -->
-<script>
-const DEFAULT_URL = "https://grand-s-main.faggotsports.tv/out/v2/dfaeda63248ed346a40b4d0fc50c94db/index.m3u8?skf1";
+<!-- ════ APP.JS ════ -->
+<script src="app.js"></script>
 
-/* ── DONNÉES ─────────────────────────────────────────── */
-const RACES = [
-  {r:1,  name:"GP d'Australie",       circuit:"Albert Park",               flag:"🇦🇺", ts:Date.UTC(2026,2,8,5,0)},
-  {r:2,  name:"GP de Chine",          circuit:"Shanghai International",    flag:"🇨🇳", ts:Date.UTC(2026,2,15,7,0)},
-  {r:3,  name:"GP du Japon",          circuit:"Suzuka",                    flag:"🇯🇵", ts:Date.UTC(2026,2,29,5,0)},
-  {r:4,  name:"GP de Bahreïn",        circuit:"Bahrain International",     flag:"🇧🇭", ts:Date.UTC(2026,3,19,15,0)},
-  {r:5,  name:"GP d'Arabie Saoudite", circuit:"Jeddah Corniche",           flag:"🇸🇦", ts:Date.UTC(2026,3,26,17,0)},
-  {r:6,  name:"GP de Miami",          circuit:"Miami International",       flag:"🇺🇸", ts:Date.UTC(2026,4,10,19,30)},
-  {r:7,  name:"GP du Canada",         circuit:"Gilles Villeneuve",         flag:"🇨🇦", ts:Date.UTC(2026,4,24,18,0)},
-  {r:8,  name:"GP d'Espagne",         circuit:"Circuit de Barcelona",      flag:"🇪🇸", ts:Date.UTC(2026,5,7,13,0)},
-  {r:9,  name:"GP de Monaco",         circuit:"Circuit de Monaco",         flag:"🇲🇨", ts:Date.UTC(2026,5,21,13,0)},
-  {r:10, name:"GP d'Azerbaïdjan",     circuit:"Baku City Circuit",         flag:"🇦🇿", ts:Date.UTC(2026,6,5,11,0)},
-  {r:11, name:"GP de Grande-Bretagne",circuit:"Silverstone",               flag:"🇬🇧", ts:Date.UTC(2026,6,19,14,0)},
-  {r:12, name:"GP de Belgique",       circuit:"Circuit de Spa",            flag:"🇧🇪", ts:Date.UTC(2026,7,2,13,0)},
-  {r:13, name:"GP de Hongrie",        circuit:"Hungaroring",               flag:"🇭🇺", ts:Date.UTC(2026,7,23,13,0)},
-  {r:14, name:"GP des Pays-Bas",      circuit:"Zandvoort",                 flag:"🇳🇱", ts:Date.UTC(2026,7,30,13,0)},
-  {r:15, name:"GP d'Italie",          circuit:"Monza",                     flag:"🇮🇹", ts:Date.UTC(2026,8,6,13,0)},
-  {r:16, name:"GP de Madrid",         circuit:"Madring",                   flag:"🇪🇸", ts:Date.UTC(2026,8,13,13,0)},
-  {r:17, name:"GP de Singapour",      circuit:"Marina Bay Street",         flag:"🇸🇬", ts:Date.UTC(2026,8,20,12,0)},
-  {r:18, name:"GP des États-Unis",    circuit:"Circuit of the Americas",   flag:"🇺🇸", ts:Date.UTC(2026,9,18,19,0)},
-  {r:19, name:"GP du Mexique",        circuit:"Autodromo H. Rodriguez",    flag:"🇲🇽", ts:Date.UTC(2026,9,25,20,0)},
-  {r:20, name:"GP du Brésil",         circuit:"Interlagos",                flag:"🇧🇷", ts:Date.UTC(2026,10,8,17,0)},
-  {r:21, name:"GP de Las Vegas",      circuit:"Las Vegas Strip Circuit",   flag:"🇺🇸", ts:Date.UTC(2026,10,21,6,0)},
-  {r:22, name:"GP du Qatar",          circuit:"Losail International",      flag:"🇶🇦", ts:Date.UTC(2026,10,29,14,0)},
-  {r:23, name:"GP d'Abu Dhabi",       circuit:"Yas Marina Circuit",        flag:"🇦🇪", ts:Date.UTC(2026,11,6,13,0)},
-];
-
-const TEAMS = [
-  {name:"McLaren",       engine:"Mercedes",     color:"#FF8000", p1:"Lando Norris",    f1:"🇬🇧", n1:4,  p2:"Oscar Piastri",     f2:"🇦🇺", n2:81, note:"Favoris au titre constructeurs"},
-  {name:"Ferrari",       engine:"Ferrari",      color:"#E8002D", p1:"Charles Leclerc", f1:"🇲🇨", n1:16, p2:"Lewis Hamilton",    f2:"🇬🇧", n2:44, note:"Hamilton, 1re saison Ferrari"},
-  {name:"Red Bull",      engine:"Red Bull/Ford",color:"#3671C6", p1:"Max Verstappen",  f1:"🇳🇱", n1:1,  p2:"Isack Hadjar",      f2:"🇫🇷", n2:6,  note:"Hadjar promu rookie"},
-  {name:"Mercedes",      engine:"Mercedes",     color:"#27F4D2", p1:"George Russell",  f1:"🇬🇧", n1:63, p2:"Kimi Antonelli",   f2:"🇮🇹", n2:12, note:"Antonelli rookie prometteur"},
-  {name:"Aston Martin",  engine:"Honda",        color:"#229971", p1:"Fernando Alonso", f1:"🇪🇸", n1:14, p2:"Lance Stroll",     f2:"🇨🇦", n2:18, note:"Adrian Newey directeur technique"},
-  {name:"Alpine",        engine:"Mercedes",     color:"#0093CC", p1:"Pierre Gasly",    f1:"🇫🇷", n1:10, p2:"Franco Colapinto", f2:"🇦🇷", n2:43, note:"Moteur Mercedes pour 2026"},
-  {name:"Haas",          engine:"Ferrari",      color:"#B6BABD", p1:"Esteban Ocon",    f1:"🇫🇷", n1:31, p2:"Oliver Bearman",   f2:"🇬🇧", n2:87, note:"Sponsor-titre Toyota"},
-  {name:"Racing Bulls",  engine:"Red Bull/Ford",color:"#6692FF", p1:"Liam Lawson",     f1:"🇳🇿", n1:30, p2:"Arvid Lindblad",   f2:"🇸🇪", n2:5,  note:"Lindblad rookie"},
-  {name:"Williams",      engine:"Mercedes",     color:"#64C4FF", p1:"Carlos Sainz",    f1:"🇪🇸", n1:55, p2:"Alexander Albon",  f2:"🇹🇭", n2:23, note:"Sainz prolongé"},
-  {name:"Audi",          engine:"Audi",         color:"#C0C0C0", p1:"Nico Hülkenberg", f1:"🇩🇪", n1:27, p2:"Gabriel Bortoleto",f2:"🇧🇷", n2:5,  note:"1re saison sous marque Audi"},
-  {name:"Cadillac",      engine:"Ferrari",      color:"#A50C2F", p1:"Valtteri Bottas", f1:"🇫🇮", n1:77, p2:"Sergio Pérez",     f2:"🇲🇽", n2:11, note:"11e écurie, 1re depuis 2016"},
-];
-
-/* ── NAVIGATION ──────────────────────────────────────── */
-function showPage(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('active');
-  const nb = document.getElementById('nav-' + id);
-  if (nb) nb.classList.add('active');
-  if (id === 'calendar')  renderCalendar();
-  if (id === 'standings') fetchStandings('drivers');
-  if (id === 'teams')     renderTeams();
-  if (id === 'player')    startPlayer();
-  if (id === 'settings')  document.getElementById('stream-url-input').value = localStorage.getItem('stream_url') || DEFAULT_URL;
-  window.scrollTo(0,0);
-}
-window.showPage = showPage;
-
-/* ── TOAST ───────────────────────────────────────────── */
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2800);
-}
-window.showToast = showToast;
-
-/* ── MODAL ───────────────────────────────────────────── */
-function openModal() {
-  document.getElementById('modal-backdrop').classList.add('open');
-  setTimeout(() => document.getElementById('auth-email').focus(), 100);
-}
-function closeModal() {
-  document.getElementById('modal-backdrop').classList.remove('open');
-  document.getElementById('modal-err').textContent = '';
-}
-function closeModalOutside(e) {
-  if (e.target === document.getElementById('modal-backdrop')) closeModal();
-}
-window.openModal = openModal;
-window.closeModal = closeModal;
-window.closeModalOutside = closeModalOutside;
-
-/* ── CALENDRIER ─────────────────────────────────────── */
-function renderCalendar() {
-  const wrap = document.getElementById('cal-rows');
-  if (wrap.children.length) return;
-  const now = Date.now();
-  let foundNext = false;
-  const fmt = new Intl.DateTimeFormat('fr-FR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
-  RACES.forEach(r => {
-    const past = r.ts < now;
-    const next = !past && !foundNext;
-    if (next) foundNext = true;
-    const row = document.createElement('div');
-    row.className = 'cal-row' + (next?' next':'') + (past?' past':'');
-    row.innerHTML = `
-      <span class="cal-round">${r.r}</span>
-      <div class="cal-name-wrap">
-        ${next ? '<span class="cal-badge">Prochain</span>' : ''}
-        <span class="cal-name">${r.name}</span>
-        <span class="cal-circuit">${r.circuit}</span>
-      </div>
-      <span class="cal-date">${fmt.format(new Date(r.ts))}</span>
-      <span class="cal-flag">${r.flag}</span>
-      ${!past ? `<button class="notif-icon" title="Activer notifications" onclick="schedNotif(this,'${r.name}',${r.ts})">🔔</button>` : '<span></span>'}`;
-    wrap.appendChild(row);
-  });
-
-  // Prochaine course dans la stat du hero
-  const next = RACES.find(r => r.ts > Date.now());
-  if (next) {
-    const d = new Date(next.ts);
-    document.getElementById('next-race-stat').textContent =
-      d.toLocaleDateString('fr-FR',{day:'numeric',month:'short'});
-  }
-}
-
-window.schedNotif = (btn, name, ts) => {
-  if (!('Notification' in window)) { showToast('Non supporté'); return; }
-  Notification.requestPermission().then(p => {
-    if (p !== 'granted') { showToast('Permission refusée'); return; }
-    const d30 = ts - Date.now() - 1800000;
-    const d0  = ts - Date.now();
-    if (d30 > 0) setTimeout(() => new Notification('⏱ Dans 30 min', {body:name+' démarre bientôt !'}), d30);
-    if (d0  > 0) setTimeout(() => new Notification('🏁 C\'est parti !', {body:name+' a commencé !'}), d0);
-    btn.textContent = '✅'; btn.disabled = true;
-    showToast('Notifications activées — ' + name);
-  });
-};
-
-/* ── CLASSEMENT ─────────────────────────────────────── */
-let standingsFetched = {drivers:false, constructors:false};
-
-function fetchStandings(type) {
-  const content = document.getElementById('standings-content');
-  if (standingsFetched[type]) return;
-  standingsFetched[type] = true;
-  content.innerHTML = '<div style="color:var(--muted);padding:60px;text-align:center">Chargement...</div>';
-
-  const url = type === 'drivers'
-    ? 'https://api.jolpi.ca/ergast/f1/2026/driverstandings.json'
-    : 'https://api.jolpi.ca/ergast/f1/2026/constructorstandings.json';
-
-  fetch(url).then(r=>r.json()).then(data => {
-    const table = data.MRData.StandingsTable.StandingsLists[0];
-    if (!table) {
-      content.innerHTML = '<div style="color:var(--muted);padding:60px;text-align:center">Aucune donnée disponible.</div>';
-      return;
-    }
-    const list = type === 'drivers' ? table.DriverStandings : table.ConstructorStandings;
-    const maxPts = parseFloat(list[0]?.points || 1);
-
-    const html = `<div class="standings-list">
-      <div class="standing-row header">
-        <span>Pos.</span><span></span>
-        <span>${type==='drivers'?'Pilote':'Écurie'}</span>
-        <span style="text-align:right">Victoires</span>
-        <span style="text-align:right">Points</span>
-      </div>
-      ${list.map((s,i) => {
-        const pts  = parseFloat(s.points);
-        const pct  = (pts / maxPts * 100).toFixed(1);
-        const pos  = s.position;
-        const name = type === 'drivers'
-          ? s.Driver.familyName
-          : s.Constructor.name;
-        const sub  = type === 'drivers'
-          ? s.Constructors[0].name
-          : '';
-        const flag = type === 'drivers'
-          ? (s.Driver.nationality === 'Dutch' ? '🇳🇱' : s.Driver.nationality === 'British' ? '🇬🇧' : s.Driver.nationality === 'Monegasque' ? '🇲🇨' : s.Driver.nationality === 'Spanish' ? '🇪🇸' : s.Driver.nationality === 'Australian' ? '🇦🇺' : s.Driver.nationality === 'Mexican' ? '🇲🇽' : '🏁')
-          : '';
-        const posClass = pos==='1'?'p1':pos==='2'?'p2':pos==='3'?'p3':'';
-        return `<div class="standing-row">
-          <span class="s-pos ${posClass}">${pos}</span>
-          <span class="s-flag">${flag}</span>
-          <div class="s-name-wrap">
-            <span class="s-name">${name}</span>
-            ${sub?`<span class="s-team">${sub}</span>`:''}
-          </div>
-          <span class="s-wins">${s.wins}</span>
-          <span class="s-pts">${pts}<span>PTS</span></span>
-        </div>
-        <div class="pts-bar-wrap">
-          <div class="pts-bar"><div class="pts-bar-fill" style="width:${pct}%;background:${pos==='1'?'var(--red)':'var(--subtle)'}"></div></div>
-        </div>`;
-      }).join('')}
-    </div>`;
-    content.innerHTML = html;
-  }).catch(() => {
-    content.innerHTML = '<div style="color:var(--muted);padding:60px;text-align:center">Aucune donnée disponible pour 2026.</div>';
-  });
-}
-
-window.switchStandings = (type, btn) => {
-  document.querySelectorAll('.standings-tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  standingsFetched[type] = false;
-  fetchStandings(type);
-};
-
-/* ── ÉQUIPES ─────────────────────────────────────────── */
-function renderTeams() {
-  const grid = document.getElementById('teams-grid');
-  if (grid.children.length) return;
-  TEAMS.forEach((t, i) => {
-    const card = document.createElement('div');
-    card.className = 'team-card';
-    card.style.setProperty('--team-color', t.color);
-    card.style.animationDelay = (i*.06)+'s';
-    card.innerHTML = `<div class="team-card-inner">
-      <div class="team-head">
-        <div>
-          <div class="team-name">${t.name}</div>
-          <div class="team-engine">${t.engine}</div>
-        </div>
-        <div class="team-pos">${String(i+1).padStart(2,'0')}</div>
-      </div>
-      <div class="team-drivers-row">
-        <div class="team-driver">
-          <span class="team-driver-flag">${t.f1}</span>
-          <span class="team-driver-name">${t.p1}</span>
-          <span class="team-driver-num">#${t.n1}</span>
-        </div>
-      </div>
-      <div class="team-drivers-row">
-        <div class="team-driver">
-          <span class="team-driver-flag">${t.f2}</span>
-          <span class="team-driver-name">${t.p2}</span>
-          <span class="team-driver-num">#${t.n2}</span>
-        </div>
-      </div>
-      <div class="team-note">${t.note}</div>
-    </div>`;
-    grid.appendChild(card);
-  });
-}
-
-/* ── PLAYER ─────────────────────────────────────────── */
-function startPlayer() {
-  const url  = localStorage.getItem('stream_url') || DEFAULT_URL;
-  const vid  = document.getElementById('video-el');
-  document.getElementById('player-bar-url').textContent = url;
-  if (window.Hls && Hls.isSupported() && url.includes('.m3u8')) {
-    const hls = new Hls(); hls.loadSource(url); hls.attachMedia(vid);
-  } else { vid.src = url; vid.play().catch(()=>{}); }
-}
-const s = document.createElement('script');
-s.src = 'https://cdn.jsdelivr.net/npm/hls.js@latest';
-document.head.appendChild(s);
-
-/* ── PARAMÈTRES ─────────────────────────────────────── */
-window.saveUrl = () => {
-  const v = document.getElementById('stream-url-input').value.trim();
-  if (!v) { showToast('URL vide'); return; }
-  localStorage.setItem('stream_url', v); showToast('URL enregistrée ✓');
-};
-window.resetUrl = () => {
-  document.getElementById('stream-url-input').value = DEFAULT_URL;
-  localStorage.setItem('stream_url', DEFAULT_URL); showToast('URL réinitialisée');
-};
-window.switchSettings = (id, el) => {
-  ['stream','account','notifs'].forEach(k => document.getElementById('s-'+k).style.display = 'none');
-  document.getElementById('s-'+id).style.display = 'block';
-  document.querySelectorAll('.settings-nav-item').forEach(i => i.classList.remove('active'));
-  el.classList.add('active');
-};
-
-/* ── INIT ───────────────────────────────────────────── */
-renderCalendar();
-document.getElementById('stream-url-input').value = localStorage.getItem('stream_url') || DEFAULT_URL;
-</script>
 </body>
 </html>
