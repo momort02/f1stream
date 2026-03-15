@@ -9,7 +9,6 @@
 
   :root {
     --red: #E10600;
-    --red-dark: #B00000;
     --bg: #0a0a0a;
     --bg2: #111111;
     --bg3: #161616;
@@ -18,292 +17,272 @@
     --muted: #888888;
     --faint: #333333;
   }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    font-family: 'Titillium Web', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Titillium Web',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; }
 
   /* NAV */
   nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    background: rgba(10,10,10,0.95);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid #1a1a1a;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 32px; height: 60px;
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(10,10,10,.97); backdrop-filter:blur(12px);
+    border-bottom:1px solid #1a1a1a;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 24px; height:56px;
   }
-  .nav-logo {
-    font-size: 28px; font-weight: 900;
-    color: var(--red); letter-spacing: -1px;
-    cursor: pointer;
+  .nav-logo { font-size:26px; font-weight:900; color:var(--red); cursor:pointer; }
+  .nav-logo span { color:white; font-size:12px; font-weight:700; letter-spacing:4px; margin-left:6px; vertical-align:middle; }
+  .nav-center { display:flex; gap:2px; }
+  .nav-center button {
+    background:none; border:none; color:var(--muted);
+    font-family:inherit; font-size:11px; font-weight:700;
+    letter-spacing:1px; padding:8px 12px; cursor:pointer;
+    border-radius:3px; transition:all .2s; text-transform:uppercase;
   }
-  .nav-logo span { color: white; font-size: 13px; font-weight: 600; letter-spacing: 4px; margin-left: 8px; vertical-align: middle; }
-  .nav-links { display: flex; gap: 4px; }
-  .nav-links button {
-    background: none; border: none; color: var(--muted);
-    font-family: inherit; font-size: 12px; font-weight: 700;
-    letter-spacing: 1px; padding: 8px 14px; cursor: pointer;
-    border-radius: 4px; transition: all .2s; text-transform: uppercase;
+  .nav-center button:hover, .nav-center button.active { color:white; background:var(--bg4); }
+  .nav-center button.active { color:var(--red); }
+  .nav-right { display:flex; align-items:center; gap:12px; }
+  .nav-user { font-size:12px; color:var(--muted); }
+  .nav-auth-btn {
+    background:var(--red); border:none; color:white;
+    font-family:inherit; font-size:11px; font-weight:700;
+    letter-spacing:1px; padding:8px 16px; cursor:pointer;
+    text-transform:uppercase; transition:background .2s;
   }
-  .nav-links button:hover, .nav-links button.active {
-    color: white; background: var(--bg4);
-  }
-  .nav-links button.active { color: var(--red); }
+  .nav-auth-btn:hover { background:#c00; }
+  .nav-auth-btn.secondary { background:var(--bg4); }
+  .nav-auth-btn.secondary:hover { background:#222; }
 
   /* PAGES */
-  .page { display: none; padding-top: 60px; min-height: 100vh; }
-  .page.active { display: block; }
+  .page { display:none; padding-top:56px; min-height:100vh; }
+  .page.active { display:block; }
 
   /* HERO */
   .hero {
-    display: flex; flex-direction: column; align-items: center;
-    justify-content: center; min-height: calc(100vh - 60px);
-    position: relative; overflow: hidden; padding: 40px 20px;
+    display:flex; flex-direction:column; align-items:center;
+    justify-content:center; min-height:calc(100vh - 56px);
+    position:relative; overflow:hidden; padding:40px 20px;
   }
-  .hero-bg {
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse 80% 60% at 50% 40%, #1a0000 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .hero-lines {
-    position: absolute; inset: 0; pointer-events: none; overflow: hidden;
-  }
-  .hero-lines::before {
-    content: ''; position: absolute;
-    bottom: 0; left: -20%; right: -20%; height: 3px;
-    background: var(--red); opacity: .15;
-    transform: rotate(-3deg) translateY(-80px);
-  }
-  .hero-lines::after {
-    content: ''; position: absolute;
-    bottom: 0; left: -20%; right: -20%; height: 1px;
-    background: var(--red); opacity: .08;
-    transform: rotate(-3deg) translateY(-50px);
-  }
+  .hero-bg { position:absolute; inset:0; background:radial-gradient(ellipse 80% 60% at 50% 40%,#1a0000 0%,transparent 70%); pointer-events:none; }
   .hero-f1 {
-    font-size: clamp(120px, 25vw, 200px);
-    font-weight: 900; line-height: 1;
-    color: var(--red);
-    text-shadow: 0 0 80px rgba(225,6,0,.4), 0 0 160px rgba(225,6,0,.15);
-    animation: fadeUp .6s ease both;
-    position: relative; z-index: 1;
+    font-size:clamp(120px,25vw,200px); font-weight:900; line-height:1;
+    color:var(--red); text-shadow:0 0 80px rgba(225,6,0,.4);
+    animation:fadeUp .6s ease both; position:relative; z-index:1;
   }
-  .hero-sub {
-    font-size: 14px; font-weight: 700; letter-spacing: 6px;
-    color: var(--muted); margin-top: -8px; margin-bottom: 48px;
-    animation: fadeUp .6s .1s ease both;
-    position: relative; z-index: 1;
-  }
-  .hero-divider {
-    width: 100%; max-width: 480px; height: 2px;
-    background: var(--red); margin-bottom: 48px;
-    animation: fadeUp .6s .15s ease both;
-    position: relative; z-index: 1;
-  }
-  .hero-buttons {
-    display: flex; flex-direction: column; gap: 12px;
-    width: 100%; max-width: 480px;
-    animation: fadeUp .6s .2s ease both;
-    position: relative; z-index: 1;
-  }
+  .hero-sub { font-size:14px; font-weight:700; letter-spacing:6px; color:var(--muted); margin-top:-8px; margin-bottom:48px; animation:fadeUp .6s .1s ease both; position:relative; z-index:1; }
+  .hero-divider { width:100%; max-width:480px; height:2px; background:var(--red); margin-bottom:48px; animation:fadeUp .6s .15s ease both; position:relative; z-index:1; }
+  .hero-buttons { display:flex; flex-direction:column; gap:10px; width:100%; max-width:480px; animation:fadeUp .6s .2s ease both; position:relative; z-index:1; }
   .btn {
-    background: var(--bg4); border: none; color: white;
-    font-family: inherit; font-size: 13px; font-weight: 700;
-    letter-spacing: 1px; padding: 18px 32px; cursor: pointer;
-    text-align: left; display: flex; align-items: center; gap: 12px;
-    transition: all .2s; border-left: 3px solid transparent;
-    text-transform: uppercase;
+    background:var(--bg4); border:none; color:white;
+    font-family:inherit; font-size:13px; font-weight:700;
+    letter-spacing:1px; padding:16px 28px; cursor:pointer;
+    text-align:left; display:flex; align-items:center; gap:10px;
+    transition:all .2s; border-left:3px solid transparent; text-transform:uppercase; text-decoration:none;
   }
-  .btn:hover { background: #222; border-left-color: var(--red); transform: translateX(4px); }
-  .btn.btn-live {
-    background: var(--red); border-left: none; justify-content: center;
-    font-size: 15px; margin-top: 12px;
-  }
-  .btn.btn-live:hover { background: #c00; transform: none; box-shadow: 0 0 30px rgba(225,6,0,.4); }
-  .btn.btn-download {
-    background: transparent; border: 2px solid var(--faint); border-left: 2px solid var(--faint);
-    justify-content: center; text-decoration: none; color: var(--muted);
-    font-size: 12px; letter-spacing: 2px;
-  }
-  .btn.btn-download:hover { border-color: var(--red); color: white; transform: none; background: #0f0f0f; }
+  .btn:hover { background:#222; border-left-color:var(--red); transform:translateX(4px); }
+  .btn.btn-live { background:var(--red); border-left:none; justify-content:center; font-size:15px; margin-top:8px; }
+  .btn.btn-live:hover { background:#c00; transform:none; box-shadow:0 0 30px rgba(225,6,0,.4); }
+  .btn.btn-download { background:transparent; border:2px solid var(--faint); border-left:2px solid var(--faint); justify-content:center; color:var(--muted); font-size:12px; letter-spacing:2px; }
+  .btn.btn-download:hover { border-color:var(--red); color:white; transform:none; }
 
-  /* SECTION COMMUNE */
-  .section { max-width: 800px; margin: 0 auto; padding: 48px 24px; }
-  .section-title {
-    font-size: 22px; font-weight: 900; color: var(--red);
-    letter-spacing: 2px; text-align: center; margin-bottom: 8px;
+  /* SECTION */
+  .section { max-width:800px; margin:0 auto; padding:48px 24px; }
+  .section-title { font-size:22px; font-weight:900; color:var(--red); letter-spacing:2px; text-align:center; margin-bottom:8px; }
+  .section-sub { font-size:12px; color:var(--muted); text-align:center; margin-bottom:40px; letter-spacing:1px; }
+
+  /* PLAYER PAGE — layout 2 colonnes */
+  #page-player { display:none; }
+  #page-player.active { display:flex; flex-direction:column; }
+  .player-layout {
+    display:flex; height:calc(100vh - 56px); gap:0;
   }
-  .section-sub {
-    font-size: 12px; color: var(--muted); text-align: center;
-    margin-bottom: 40px; letter-spacing: 1px;
+  .player-col {
+    flex:1; display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    background:#000; padding:16px;
+  }
+  video { width:100%; max-width:100%; aspect-ratio:16/9; background:#000; outline:none; }
+  .player-info { margin-top:10px; text-align:center; width:100%; }
+  .player-info p { font-size:11px; color:var(--muted); }
+  .player-url { font-size:10px; color:#333; margin-top:4px; word-break:break-all; }
+
+  /* CHAT */
+  .chat-col {
+    width:340px; min-width:280px; display:flex; flex-direction:column;
+    background:var(--bg2); border-left:1px solid #1a1a1a;
+  }
+  .chat-header {
+    padding:16px 20px; border-bottom:1px solid #1a1a1a;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .chat-header-title { font-size:13px; font-weight:700; letter-spacing:2px; color:var(--red); }
+  .chat-online { font-size:11px; color:var(--muted); }
+  .chat-messages {
+    flex:1; overflow-y:auto; padding:16px; display:flex;
+    flex-direction:column; gap:12px;
+  }
+  .chat-messages::-webkit-scrollbar { width:4px; }
+  .chat-messages::-webkit-scrollbar-track { background:#111; }
+  .chat-messages::-webkit-scrollbar-thumb { background:#333; border-radius:2px; }
+  .chat-msg { display:flex; flex-direction:column; gap:3px; animation:fadeUp .2s ease; }
+  .chat-msg-header { display:flex; align-items:baseline; gap:8px; }
+  .chat-msg-user { font-size:12px; font-weight:700; color:var(--red); }
+  .chat-msg-time { font-size:10px; color:#444; }
+  .chat-msg-text { font-size:13px; color:#ccc; line-height:1.5; word-break:break-word; }
+  .chat-msg.own .chat-msg-user { color:#4a9eff; }
+
+  /* Connexion requise dans le chat */
+  .chat-login-wall {
+    padding:20px; border-top:1px solid #1a1a1a;
+    display:flex; flex-direction:column; gap:10px; align-items:center;
+    background:var(--bg2);
+  }
+  .chat-login-wall p { font-size:12px; color:var(--muted); text-align:center; line-height:1.6; }
+  .chat-login-wall button {
+    background:var(--red); border:none; color:white;
+    font-family:inherit; font-size:12px; font-weight:700;
+    letter-spacing:1px; padding:12px 24px; cursor:pointer;
+    width:100%; text-transform:uppercase; transition:background .2s;
+  }
+  .chat-login-wall button:hover { background:#c00; }
+
+  /* Input chat */
+  .chat-input-area {
+    padding:12px 16px; border-top:1px solid #1a1a1a;
+    display:flex; gap:8px; background:var(--bg2);
+  }
+  .chat-input {
+    flex:1; background:var(--bg4); border:1px solid #222;
+    color:white; font-family:inherit; font-size:13px;
+    padding:10px 14px; outline:none; transition:border-color .2s;
+  }
+  .chat-input:focus { border-color:var(--red); }
+  .chat-input::placeholder { color:#444; }
+  .chat-send {
+    background:var(--red); border:none; color:white;
+    font-family:inherit; font-size:13px; font-weight:700;
+    padding:10px 18px; cursor:pointer; transition:background .2s;
+  }
+  .chat-send:hover { background:#c00; }
+
+  /* MODAL AUTH */
+  .modal-overlay {
+    position:fixed; inset:0; background:rgba(0,0,0,.85);
+    z-index:200; display:flex; align-items:center; justify-content:center;
+    opacity:0; pointer-events:none; transition:opacity .25s;
+  }
+  .modal-overlay.open { opacity:1; pointer-events:all; }
+  .modal {
+    background:var(--bg2); padding:40px; width:100%; max-width:400px;
+    border-top:3px solid var(--red); animation:fadeUp .3s ease;
+  }
+  .modal-title { font-size:20px; font-weight:900; color:var(--red); margin-bottom:6px; letter-spacing:2px; }
+  .modal-sub { font-size:12px; color:var(--muted); margin-bottom:32px; }
+  .modal-tabs { display:flex; gap:0; margin-bottom:28px; }
+  .modal-tab {
+    flex:1; padding:10px; background:var(--bg4); border:none;
+    color:var(--muted); font-family:inherit; font-size:12px; font-weight:700;
+    letter-spacing:1px; cursor:pointer; text-transform:uppercase; transition:all .2s;
+  }
+  .modal-tab.active { background:var(--red); color:white; }
+  .modal-field { margin-bottom:16px; }
+  .modal-field label { display:block; font-size:11px; color:var(--muted); letter-spacing:1px; margin-bottom:6px; text-transform:uppercase; }
+  .modal-field input {
+    width:100%; background:var(--bg4); border:1px solid #222;
+    color:white; font-family:inherit; font-size:14px;
+    padding:14px 16px; outline:none; transition:border-color .2s;
+  }
+  .modal-field input:focus { border-color:var(--red); }
+  .modal-submit {
+    width:100%; background:var(--red); border:none; color:white;
+    font-family:inherit; font-size:14px; font-weight:700;
+    letter-spacing:1px; padding:16px; cursor:pointer;
+    text-transform:uppercase; transition:background .2s; margin-top:8px;
+  }
+  .modal-submit:hover { background:#c00; }
+  .modal-error { font-size:12px; color:#ff6b6b; margin-top:12px; min-height:18px; }
+  .modal-close {
+    position:absolute; top:16px; right:16px; background:none; border:none;
+    color:var(--muted); font-size:20px; cursor:pointer;
   }
 
   /* CALENDRIER */
-  .race-card {
-    background: var(--bg3); padding: 20px 24px;
-    margin-bottom: 12px; border-left: 3px solid transparent;
-    transition: all .2s; cursor: default;
-    animation: fadeUp .4s ease both;
-  }
-  .race-card:hover { border-left-color: var(--red); background: #1a1a1a; }
-  .race-card.next { background: #1a0000; border-left-color: var(--red); }
-  .race-card.past { opacity: .45; }
-  .race-badge {
-    font-size: 10px; font-weight: 700; color: var(--red);
-    letter-spacing: 2px; margin-bottom: 6px;
-  }
-  .race-row { display: flex; align-items: center; gap: 10px; }
-  .race-flag { font-size: 20px; }
-  .race-name { font-size: 16px; font-weight: 700; }
-  .race-circuit { font-size: 12px; color: var(--muted); margin-top: 4px; }
-  .race-date { font-size: 13px; color: #aaa; margin-top: 4px; }
-  .race-card.next .race-date { color: var(--red); }
-  .notif-btn {
-    margin-top: 12px; background: #222; border: none; color: white;
-    font-family: inherit; font-size: 11px; font-weight: 600; padding: 8px 16px;
-    cursor: pointer; letter-spacing: 1px; transition: background .2s;
-  }
-  .notif-btn:hover { background: var(--red); }
-  .notif-btn.active { background: #1a3a1a; color: #4caf50; cursor: default; }
+  .race-card { background:var(--bg3); padding:20px 24px; margin-bottom:12px; border-left:3px solid transparent; transition:all .2s; animation:fadeUp .4s ease both; }
+  .race-card:hover { border-left-color:var(--red); background:#1a1a1a; }
+  .race-card.next { background:#1a0000; border-left-color:var(--red); }
+  .race-card.past { opacity:.45; }
+  .race-badge { font-size:10px; font-weight:700; color:var(--red); letter-spacing:2px; margin-bottom:6px; }
+  .race-row { display:flex; align-items:center; gap:10px; }
+  .race-flag { font-size:20px; }
+  .race-name { font-size:16px; font-weight:700; }
+  .race-circuit { font-size:12px; color:var(--muted); margin-top:4px; }
+  .race-date { font-size:13px; color:#aaa; margin-top:4px; }
+  .race-card.next .race-date { color:var(--red); }
+  .notif-btn { margin-top:12px; background:#222; border:none; color:white; font-family:inherit; font-size:11px; font-weight:600; padding:8px 16px; cursor:pointer; letter-spacing:1px; transition:background .2s; }
+  .notif-btn:hover { background:var(--red); }
+  .notif-btn.active { background:#1a3a1a; color:#4caf50; cursor:default; }
 
   /* COUNTDOWN */
-  .countdown-wrap {
-    display: flex; flex-direction: column; align-items: center;
-    padding: 60px 24px;
-  }
-  .countdown-label {
-    font-size: 11px; font-weight: 700; color: var(--muted);
-    letter-spacing: 4px; margin-bottom: 16px;
-  }
-  .countdown-race {
-    font-size: clamp(22px, 5vw, 32px); font-weight: 900;
-    color: var(--red); text-align: center; margin-bottom: 6px;
-  }
-  .countdown-date {
-    font-size: 13px; color: var(--muted); margin-bottom: 60px; text-align: center;
-  }
-  .countdown-blocks {
-    display: flex; gap: 16px; align-items: center;
-  }
-  .countdown-block {
-    background: var(--bg3); padding: 20px 24px;
-    display: flex; flex-direction: column; align-items: center; min-width: 90px;
-  }
-  .countdown-num {
-    font-size: 52px; font-weight: 900; line-height: 1;
-    color: white; font-variant-numeric: tabular-nums;
-  }
-  .countdown-unit {
-    font-size: 10px; color: var(--muted); letter-spacing: 2px; margin-top: 6px;
-  }
-  .countdown-colon {
-    font-size: 40px; font-weight: 900; color: var(--red);
-    margin-bottom: 20px;
-  }
+  .countdown-wrap { display:flex; flex-direction:column; align-items:center; padding:60px 24px; }
+  .countdown-label { font-size:11px; font-weight:700; color:var(--muted); letter-spacing:4px; margin-bottom:16px; }
+  .countdown-race { font-size:clamp(22px,5vw,32px); font-weight:900; color:var(--red); text-align:center; margin-bottom:6px; }
+  .countdown-date { font-size:13px; color:var(--muted); margin-bottom:60px; text-align:center; }
+  .countdown-blocks { display:flex; gap:16px; align-items:center; }
+  .countdown-block { background:var(--bg3); padding:20px 24px; display:flex; flex-direction:column; align-items:center; min-width:90px; }
+  .countdown-num { font-size:52px; font-weight:900; line-height:1; color:white; font-variant-numeric:tabular-nums; }
+  .countdown-unit { font-size:10px; color:var(--muted); letter-spacing:2px; margin-top:6px; }
+  .countdown-colon { font-size:40px; font-weight:900; color:var(--red); margin-bottom:20px; }
 
   /* ÉQUIPES */
-  .team-card {
-    background: var(--bg3); margin-bottom: 16px;
-    overflow: hidden; transition: transform .2s;
-    animation: fadeUp .4s ease both;
-  }
-  .team-card:hover { transform: translateY(-2px); }
-  .team-stripe { height: 4px; }
-  .team-body { padding: 20px 24px; }
-  .team-name { font-size: 18px; font-weight: 900; margin-bottom: 4px; }
-  .team-engine { font-size: 11px; color: var(--muted); margin-bottom: 14px; letter-spacing: 1px; }
-  .team-drivers { display: flex; flex-direction: column; gap: 8px; }
-  .team-driver { display: flex; align-items: center; gap: 10px; }
-  .team-driver-flag { font-size: 16px; }
-  .team-driver-name { font-size: 14px; color: #ccc; }
-  .team-note { font-size: 11px; color: #444; margin-top: 12px; border-top: 1px solid #222; padding-top: 10px; }
+  .team-card { background:var(--bg3); margin-bottom:16px; overflow:hidden; transition:transform .2s; animation:fadeUp .4s ease both; }
+  .team-card:hover { transform:translateY(-2px); }
+  .team-stripe { height:4px; }
+  .team-body { padding:20px 24px; }
+  .team-name { font-size:18px; font-weight:900; margin-bottom:4px; }
+  .team-engine { font-size:11px; color:var(--muted); margin-bottom:14px; letter-spacing:1px; }
+  .team-drivers { display:flex; flex-direction:column; gap:8px; }
+  .team-driver { display:flex; align-items:center; gap:10px; }
+  .team-driver-flag { font-size:16px; }
+  .team-driver-name { font-size:14px; color:#ccc; }
+  .team-note { font-size:11px; color:#444; margin-top:12px; border-top:1px solid #222; padding-top:10px; }
 
   /* RÉSULTATS */
-  .result-card {
-    background: var(--bg3); margin-bottom: 20px;
-    animation: fadeUp .4s ease both;
-  }
-  .result-stripe { height: 3px; background: var(--red); }
-  .result-body { padding: 20px 24px; }
-  .result-name { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
-  .result-date { font-size: 11px; color: #555; margin-bottom: 16px; }
-  .result-podium { display: flex; flex-direction: column; gap: 10px; }
-  .result-row { display: flex; align-items: center; gap: 12px; }
-  .result-medal { font-size: 20px; min-width: 32px; }
-  .result-driver { font-size: 14px; font-weight: 700; }
-  .result-team { font-size: 11px; color: var(--muted); }
-  .loading { text-align: center; color: var(--muted); padding: 60px; font-size: 14px; }
+  .result-card { background:var(--bg3); margin-bottom:20px; animation:fadeUp .4s ease both; }
+  .result-stripe { height:3px; background:var(--red); }
+  .result-body { padding:20px 24px; }
+  .result-name { font-size:16px; font-weight:700; margin-bottom:4px; }
+  .result-date { font-size:11px; color:#555; margin-bottom:16px; }
+  .result-podium { display:flex; flex-direction:column; gap:10px; }
+  .result-row { display:flex; align-items:center; gap:12px; }
+  .result-medal { font-size:20px; min-width:32px; }
+  .result-driver { font-size:14px; font-weight:700; }
+  .result-team { font-size:11px; color:var(--muted); }
+  .loading { text-align:center; color:var(--muted); padding:60px; font-size:14px; }
 
   /* PARAMÈTRES */
-  .settings-section { margin-bottom: 40px; }
-  .settings-label {
-    font-size: 11px; font-weight: 700; color: var(--red);
-    letter-spacing: 2px; margin-bottom: 12px; display: block;
-  }
-  .settings-desc { font-size: 12px; color: var(--muted); margin-bottom: 16px; line-height: 1.6; }
-  .settings-input {
-    width: 100%; background: var(--bg4); border: 1px solid #222;
-    color: white; font-family: inherit; font-size: 13px;
-    padding: 16px 20px; outline: none; resize: vertical; min-height: 80px;
-    transition: border-color .2s;
-  }
-  .settings-input:focus { border-color: var(--red); }
-  .settings-input::placeholder { color: #333; }
-  .settings-row { display: flex; gap: 12px; margin-top: 12px; }
-  .settings-btn {
-    background: var(--red); border: none; color: white;
-    font-family: inherit; font-size: 12px; font-weight: 700;
-    letter-spacing: 1px; padding: 14px 24px; cursor: pointer;
-    transition: background .2s; text-transform: uppercase; flex: 1;
-  }
-  .settings-btn:hover { background: #c00; }
-  .settings-btn.secondary { background: var(--bg4); }
-  .settings-btn.secondary:hover { background: #222; }
-  .settings-divider { height: 1px; background: #1a1a1a; margin: 40px 0; }
-  .format-item { font-size: 13px; padding: 8px 0; color: #aaa; border-bottom: 1px solid #111; }
-  .format-item.unsupported { color: #333; }
-
-  /* PLAYER */
-  .player-wrap {
-    display: flex; flex-direction: column; align-items: center;
-    justify-content: center; min-height: calc(100vh - 60px); padding: 24px;
-  }
-  video {
-    width: 100%; max-width: 960px; background: #000;
-    aspect-ratio: 16/9; outline: none;
-  }
-  .player-info { margin-top: 16px; text-align: center; }
-  .player-info p { font-size: 12px; color: var(--muted); }
-  .player-url { font-size: 11px; color: #333; margin-top: 6px; word-break: break-all; max-width: 600px; }
+  .settings-section { margin-bottom:40px; }
+  .settings-label { font-size:11px; font-weight:700; color:var(--red); letter-spacing:2px; margin-bottom:12px; display:block; }
+  .settings-desc { font-size:12px; color:var(--muted); margin-bottom:16px; line-height:1.6; }
+  .settings-input { width:100%; background:var(--bg4); border:1px solid #222; color:white; font-family:inherit; font-size:13px; padding:16px 20px; outline:none; resize:vertical; min-height:80px; transition:border-color .2s; }
+  .settings-input:focus { border-color:var(--red); }
+  .settings-input::placeholder { color:#333; }
+  .settings-row { display:flex; gap:12px; margin-top:12px; }
+  .settings-btn { background:var(--red); border:none; color:white; font-family:inherit; font-size:12px; font-weight:700; letter-spacing:1px; padding:14px 24px; cursor:pointer; transition:background .2s; text-transform:uppercase; flex:1; }
+  .settings-btn:hover { background:#c00; }
+  .settings-btn.secondary { background:var(--bg4); }
+  .settings-btn.secondary:hover { background:#222; }
+  .settings-divider { height:1px; background:#1a1a1a; margin:40px 0; }
+  .format-item { font-size:13px; padding:8px 0; color:#aaa; border-bottom:1px solid #111; }
+  .format-item.unsupported { color:#333; }
 
   /* TOAST */
-  .toast {
-    position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px);
-    background: #1a1a1a; border-left: 3px solid var(--red);
-    color: white; font-size: 13px; font-weight: 600;
-    padding: 14px 24px; opacity: 0; transition: all .3s; z-index: 999;
-    pointer-events: none; white-space: nowrap;
-  }
-  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast { position:fixed; bottom:32px; left:50%; transform:translateX(-50%) translateY(20px); background:#1a1a1a; border-left:3px solid var(--red); color:white; font-size:13px; font-weight:600; padding:14px 24px; opacity:0; transition:all .3s; z-index:999; pointer-events:none; white-space:nowrap; }
+  .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
 
-  /* RESPONSIVE */
-  @media (max-width: 600px) {
-    nav { padding: 0 16px; }
-    .nav-links button { padding: 8px 8px; font-size: 10px; }
-    .countdown-blocks { gap: 8px; }
-    .countdown-block { min-width: 70px; padding: 14px 12px; }
-    .countdown-num { font-size: 38px; }
+  @media (max-width:700px) {
+    .player-layout { flex-direction:column; height:auto; }
+    .chat-col { width:100%; min-width:unset; border-left:none; border-top:1px solid #1a1a1a; height:400px; }
+    .nav-center button { padding:8px 6px; font-size:10px; }
   }
 </style>
 </head>
@@ -312,12 +291,17 @@
 <!-- NAV -->
 <nav>
   <div class="nav-logo" onclick="showPage('home')">F1<span>LIVE</span></div>
-  <div class="nav-links">
-    <button onclick="showPage('calendar')" id="nav-calendar">Calendrier</button>
-    <button onclick="showPage('countdown')" id="nav-countdown">Compte à rebours</button>
-    <button onclick="showPage('teams')" id="nav-teams">Équipes</button>
-    <button onclick="showPage('results')" id="nav-results">Résultats</button>
-    <button onclick="showPage('settings')" id="nav-settings">⚙</button>
+  <div class="nav-center">
+    <button onclick="showPage('calendar')"  id="nav-calendar">Calendrier</button>
+    <button onclick="showPage('countdown')" id="nav-countdown">⏱</button>
+    <button onclick="showPage('teams')"     id="nav-teams">Équipes</button>
+    <button onclick="showPage('results')"   id="nav-results">Résultats</button>
+    <button onclick="showPage('player')"    id="nav-player">▶ Live</button>
+    <button onclick="showPage('settings')"  id="nav-settings">⚙</button>
+  </div>
+  <div class="nav-right">
+    <span class="nav-user" id="nav-user-display"></span>
+    <button class="nav-auth-btn" id="nav-auth-btn" onclick="openModal()">Connexion</button>
   </div>
 </nav>
 
@@ -325,7 +309,6 @@
 <div class="page active" id="page-home">
   <div class="hero">
     <div class="hero-bg"></div>
-    <div class="hero-lines"></div>
     <div class="hero-f1">F1</div>
     <div class="hero-sub">LIVE STREAM</div>
     <div class="hero-divider"></div>
@@ -334,9 +317,8 @@
       <button class="btn" onclick="showPage('countdown')">⏱ &nbsp;Compte à rebours</button>
       <button class="btn" onclick="showPage('teams')">🏎 &nbsp;Équipes &amp; Pilotes</button>
       <button class="btn" onclick="showPage('results')">🏆 &nbsp;Résultats</button>
-      <button class="btn" onclick="showPage('settings')">⚙ &nbsp;Paramètres</button>
       <button class="btn btn-live" onclick="showPage('player')">▶ &nbsp;REGARDER LE LIVE</button>
-      <a class="btn btn-download" href="F1live.apk" download="F1live.apk">⬇ &nbsp;TÉLÉCHARGER L'APP ANDROID</a>
+      <a class="btn btn-download" href="f1live.apk" download="f1live.apk">⬇ &nbsp;Télécharger l'app Android</a>
     </div>
   </div>
 </div>
@@ -386,6 +368,45 @@
   </div>
 </div>
 
+<!-- PLAYER + CHAT -->
+<div class="page" id="page-player">
+  <div class="player-layout">
+    <!-- Colonne vidéo -->
+    <div class="player-col">
+      <video id="video-player" controls autoplay playsinline></video>
+      <div class="player-info">
+        <p>F1 Live Stream</p>
+        <p class="player-url" id="player-url-display"></p>
+      </div>
+    </div>
+
+    <!-- Colonne chat -->
+    <div class="chat-col">
+      <div class="chat-header">
+        <span class="chat-header-title">TCHAT LIVE</span>
+        <span class="chat-online" id="chat-online">🟢 En direct</span>
+      </div>
+      <div class="chat-messages" id="chat-messages">
+        <div class="loading" style="padding:30px 0">Connexion au chat...</div>
+      </div>
+
+      <!-- Zone input — cachée si pas connecté -->
+      <div id="chat-input-zone">
+        <!-- Affiché si non connecté -->
+        <div class="chat-login-wall" id="chat-login-wall">
+          <p>Connecte-toi pour participer<br>au tchat en direct.</p>
+          <button onclick="openModal()">Se connecter / S'inscrire</button>
+        </div>
+        <!-- Affiché si connecté -->
+        <div class="chat-input-area" id="chat-input-area" style="display:none">
+          <input class="chat-input" id="chat-input" type="text" placeholder="Écris un message..." maxlength="200" autocomplete="off"/>
+          <button class="chat-send" onclick="sendMessage()">➤</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- PARAMÈTRES -->
 <div class="page" id="page-settings">
   <div class="section">
@@ -393,7 +414,7 @@
     <div class="section-sub">CONFIGURATION DU STREAM</div>
     <div class="settings-section">
       <span class="settings-label">URL DU STREAM</span>
-      <p class="settings-desc">Colle ici l'URL .m3u8 ou HLS de ton stream. Elle sera sauvegardée localement.</p>
+      <p class="settings-desc">Colle ici l'URL .m3u8 ou HLS de ton stream.</p>
       <textarea class="settings-input" id="stream-url-input" placeholder="https://... .m3u8"></textarea>
       <div class="settings-row">
         <button class="settings-btn" onclick="saveUrl()">💾 Sauvegarder</button>
@@ -405,168 +426,343 @@
       <span class="settings-label">FORMATS SUPPORTÉS</span>
       <div class="format-item">✓ &nbsp;HLS (.m3u8)</div>
       <div class="format-item">✓ &nbsp;MP4 direct</div>
-      <div class="format-item">✓ &nbsp;RTSP</div>
       <div class="format-item unsupported">✗ &nbsp;DRM / Widevine non supporté</div>
     </div>
   </div>
 </div>
 
-<!-- PLAYER -->
-<div class="page" id="page-player">
-  <div class="player-wrap">
-    <video id="video-player" controls autoplay playsinline></video>
-    <div class="player-info">
-      <p>F1 Live Stream</p>
-      <p class="player-url" id="player-url-display"></p>
+<!-- MODAL AUTH -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
+  <div class="modal" style="position:relative">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">ACCÈS F1 LIVE</div>
+    <div class="modal-sub">Connecte-toi pour participer au tchat</div>
+    <div class="modal-tabs">
+      <button class="modal-tab active" id="tab-login" onclick="switchTab('login')">Connexion</button>
+      <button class="modal-tab" id="tab-register" onclick="switchTab('register')">Inscription</button>
     </div>
+    <div class="modal-field">
+      <label>Email</label>
+      <input type="email" id="auth-email" placeholder="ton@email.com"/>
+    </div>
+    <div class="modal-field">
+      <label>Mot de passe</label>
+      <input type="password" id="auth-password" placeholder="••••••••"/>
+    </div>
+    <div class="modal-field" id="field-username" style="display:none">
+      <label>Pseudo</label>
+      <input type="text" id="auth-username" placeholder="TonPseudo" maxlength="20"/>
+    </div>
+    <button class="modal-submit" id="modal-submit-btn" onclick="submitAuth()">Se connecter</button>
+    <div class="modal-error" id="modal-error"></div>
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
+<!-- Firebase SDK -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getDatabase, ref, push, onChildAdded, serverTimestamp, limitToLast, query } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+// ══════════════════════════════════════════════════════
+// ⚠ REMPLACE CES VALEURS PAR TA CONFIG FIREBASE ⚠
+// Firebase Console → Projet → Paramètres → Ajouter app Web
+// ══════════════════════════════════════════════════════
+const firebaseConfig = {
+    apiKey: "AIzaSyDvAhUsJvrWLRjwCeq7QilNrDjKA9GwyZs",
+    authDomain: "f1stream-da688.firebaseapp.com",
+    projectId: "f1stream-da688",
+    storageBucket: "f1stream-da688.firebasestorage.app",
+    messagingSenderId: "441537027233",
+    appId: "1:441537027233:web:07015d05f469369f2e24e0"
+  };
+
+const app  = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getDatabase(app);
+
+let currentUser = null;
+let chatLoaded  = false;
+
+// ── AUTH STATE ──────────────────────────────────────────
+onAuthStateChanged(auth, user => {
+  currentUser = user;
+  const display = document.getElementById('nav-user-display');
+  const btn     = document.getElementById('nav-auth-btn');
+  const wall    = document.getElementById('chat-login-wall');
+  const inputArea = document.getElementById('chat-input-area');
+
+  if (user) {
+    display.textContent = user.displayName || user.email.split('@')[0];
+    btn.textContent = 'Déconnexion';
+    btn.classList.add('secondary');
+    btn.onclick = () => signOut(auth);
+    wall.style.display    = 'none';
+    inputArea.style.display = 'flex';
+  } else {
+    display.textContent = '';
+    btn.textContent = 'Connexion';
+    btn.classList.remove('secondary');
+    btn.onclick = openModal;
+    wall.style.display    = 'flex';
+    inputArea.style.display = 'none';
+  }
+
+  if (!chatLoaded) {
+    loadChat();
+    chatLoaded = true;
+  }
+});
+
+// ── CHAT ───────────────────────────────────────────────
+function loadChat() {
+  const messagesEl = document.getElementById('chat-messages');
+  messagesEl.innerHTML = '';
+  const chatRef = query(ref(db, 'chat'), limitToLast(100));
+
+  onChildAdded(chatRef, snap => {
+    const msg = snap.val();
+    if (!msg) return;
+    const isOwn = currentUser && msg.uid === currentUser.uid;
+    const time  = msg.ts ? new Date(msg.ts).toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit'}) : '';
+    const el = document.createElement('div');
+    el.className = 'chat-msg' + (isOwn ? ' own' : '');
+    el.innerHTML = `
+      <div class="chat-msg-header">
+        <span class="chat-msg-user">${escHtml(msg.username)}</span>
+        <span class="chat-msg-time">${time}</span>
+      </div>
+      <div class="chat-msg-text">${escHtml(msg.text)}</div>`;
+    messagesEl.appendChild(el);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  });
+}
+
+window.sendMessage = function() {
+  if (!currentUser) { openModal(); return; }
+  const input = document.getElementById('chat-input');
+  const text  = input.value.trim();
+  if (!text) return;
+  push(ref(db, 'chat'), {
+    uid:      currentUser.uid,
+    username: currentUser.displayName || currentUser.email.split('@')[0],
+    text,
+    ts: Date.now()
+  });
+  input.value = '';
+};
+
+// Envoi avec Enter
+document.getElementById('chat-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') window.sendMessage();
+});
+
+// ── AUTH MODAL ─────────────────────────────────────────
+let authMode = 'login';
+
+window.switchTab = function(mode) {
+  authMode = mode;
+  document.getElementById('tab-login').classList.toggle('active', mode === 'login');
+  document.getElementById('tab-register').classList.toggle('active', mode === 'register');
+  document.getElementById('field-username').style.display = mode === 'register' ? 'block' : 'none';
+  document.getElementById('modal-submit-btn').textContent = mode === 'login' ? 'Se connecter' : "S'inscrire";
+  document.getElementById('modal-error').textContent = '';
+};
+
+window.submitAuth = async function() {
+  const email    = document.getElementById('auth-email').value.trim();
+  const password = document.getElementById('auth-password').value;
+  const username = document.getElementById('auth-username').value.trim();
+  const errEl    = document.getElementById('modal-error');
+  errEl.textContent = '';
+
+  if (!email || !password) { errEl.textContent = 'Email et mot de passe requis.'; return; }
+
+  try {
+    if (authMode === 'register') {
+      if (!username) { errEl.textContent = 'Pseudo requis.'; return; }
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(cred.user, { displayName: username });
+      closeModal();
+      showToast('Compte créé — bienvenue ' + username + ' !');
+    } else {
+      await signInWithEmailAndPassword(auth, email, password);
+      closeModal();
+      showToast('Connecté !');
+    }
+  } catch(e) {
+    const msgs = {
+      'auth/email-already-in-use': 'Email déjà utilisé.',
+      'auth/invalid-email':        'Email invalide.',
+      'auth/weak-password':        'Mot de passe trop court (6 car. min).',
+      'auth/user-not-found':       'Aucun compte avec cet email.',
+      'auth/wrong-password':       'Mot de passe incorrect.',
+      'auth/invalid-credential':   'Email ou mot de passe incorrect.',
+    };
+    errEl.textContent = msgs[e.code] || e.message;
+  }
+};
+
+function escHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// Exposer fonctions globales
+window.openModal  = openModal;
+window.closeModal = closeModal;
+</script>
+
 <script>
-// ── DONNÉES ──────────────────────────────────────────────────────────────────
+// ── DONNÉES ───────────────────────────────────────────
 const DEFAULT_URL = "https://grand-s-main.faggotsports.tv/out/v2/dfaeda63248ed346a40b4d0fc50c94db/index.m3u8?skf1";
 
 const RACES = [
-  {name:"GP d'Australie",       circuit:"Albert Park",              flag:"🇦🇺", ts: Date.UTC(2026,2,8,5,0)},
-  {name:"GP de Chine",          circuit:"Shanghai",                 flag:"🇨🇳", ts: Date.UTC(2026,2,15,7,0)},
-  {name:"GP du Japon",          circuit:"Suzuka",                   flag:"🇯🇵", ts: Date.UTC(2026,2,29,5,0)},
-  {name:"GP de Bahreïn",        circuit:"Bahrain International",    flag:"🇧🇭", ts: Date.UTC(2026,3,19,15,0)},
-  {name:"GP d'Arabie Saoudite", circuit:"Jeddah Corniche",          flag:"🇸🇦", ts: Date.UTC(2026,3,26,17,0)},
-  {name:"GP de Miami",          circuit:"Miami International",      flag:"🇺🇸", ts: Date.UTC(2026,4,10,19,30)},
-  {name:"GP du Canada",         circuit:"Gilles Villeneuve",        flag:"🇨🇦", ts: Date.UTC(2026,4,24,18,0)},
-  {name:"GP d'Espagne",         circuit:"Circuit de Barcelona",     flag:"🇪🇸", ts: Date.UTC(2026,5,7,13,0)},
-  {name:"GP de Monaco",         circuit:"Circuit de Monaco",        flag:"🇲🇨", ts: Date.UTC(2026,5,21,13,0)},
-  {name:"GP d'Azerbaïdjan",     circuit:"Baku City Circuit",        flag:"🇦🇿", ts: Date.UTC(2026,6,5,11,0)},
-  {name:"GP de Grande-Bretagne",circuit:"Silverstone",              flag:"🇬🇧", ts: Date.UTC(2026,6,19,14,0)},
-  {name:"GP de Belgique",       circuit:"Circuit de Spa",           flag:"🇧🇪", ts: Date.UTC(2026,7,2,13,0)},
-  {name:"GP de Hongrie",        circuit:"Hungaroring",              flag:"🇭🇺", ts: Date.UTC(2026,7,23,13,0)},
-  {name:"GP des Pays-Bas",      circuit:"Zandvoort",                flag:"🇳🇱", ts: Date.UTC(2026,7,30,13,0)},
-  {name:"GP d'Italie",          circuit:"Monza",                    flag:"🇮🇹", ts: Date.UTC(2026,8,6,13,0)},
-  {name:"GP de Madrid",         circuit:"Madring",                  flag:"🇪🇸", ts: Date.UTC(2026,8,13,13,0)},
-  {name:"GP de Singapour",      circuit:"Marina Bay Street",        flag:"🇸🇬", ts: Date.UTC(2026,8,20,12,0)},
-  {name:"GP des États-Unis",    circuit:"Circuit of the Americas",  flag:"🇺🇸", ts: Date.UTC(2026,9,18,19,0)},
-  {name:"GP du Mexique",        circuit:"Autodromo Hermanos Rodriguez",flag:"🇲🇽", ts: Date.UTC(2026,9,25,20,0)},
-  {name:"GP du Brésil",         circuit:"Interlagos",               flag:"🇧🇷", ts: Date.UTC(2026,10,8,17,0)},
-  {name:"GP de Las Vegas",      circuit:"Las Vegas Strip Circuit",  flag:"🇺🇸", ts: Date.UTC(2026,10,21,6,0)},
-  {name:"GP du Qatar",          circuit:"Losail International",     flag:"🇶🇦", ts: Date.UTC(2026,10,29,14,0)},
-  {name:"GP d'Abu Dhabi",       circuit:"Yas Marina Circuit",       flag:"🇦🇪", ts: Date.UTC(2026,11,6,13,0)},
+  {name:"GP d'Australie",       circuit:"Albert Park",                  flag:"🇦🇺", ts:Date.UTC(2026,2,8,5,0)},
+  {name:"GP de Chine",          circuit:"Shanghai",                     flag:"🇨🇳", ts:Date.UTC(2026,2,15,7,0)},
+  {name:"GP du Japon",          circuit:"Suzuka",                       flag:"🇯🇵", ts:Date.UTC(2026,2,29,5,0)},
+  {name:"GP de Bahreïn",        circuit:"Bahrain International",        flag:"🇧🇭", ts:Date.UTC(2026,3,19,15,0)},
+  {name:"GP d'Arabie Saoudite", circuit:"Jeddah Corniche",              flag:"🇸🇦", ts:Date.UTC(2026,3,26,17,0)},
+  {name:"GP de Miami",          circuit:"Miami International",          flag:"🇺🇸", ts:Date.UTC(2026,4,10,19,30)},
+  {name:"GP du Canada",         circuit:"Gilles Villeneuve",            flag:"🇨🇦", ts:Date.UTC(2026,4,24,18,0)},
+  {name:"GP d'Espagne",         circuit:"Circuit de Barcelona",         flag:"🇪🇸", ts:Date.UTC(2026,5,7,13,0)},
+  {name:"GP de Monaco",         circuit:"Circuit de Monaco",            flag:"🇲🇨", ts:Date.UTC(2026,5,21,13,0)},
+  {name:"GP d'Azerbaïdjan",     circuit:"Baku City Circuit",            flag:"🇦🇿", ts:Date.UTC(2026,6,5,11,0)},
+  {name:"GP de Grande-Bretagne",circuit:"Silverstone",                  flag:"🇬🇧", ts:Date.UTC(2026,6,19,14,0)},
+  {name:"GP de Belgique",       circuit:"Circuit de Spa",               flag:"🇧🇪", ts:Date.UTC(2026,7,2,13,0)},
+  {name:"GP de Hongrie",        circuit:"Hungaroring",                  flag:"🇭🇺", ts:Date.UTC(2026,7,23,13,0)},
+  {name:"GP des Pays-Bas",      circuit:"Zandvoort",                    flag:"🇳🇱", ts:Date.UTC(2026,7,30,13,0)},
+  {name:"GP d'Italie",          circuit:"Monza",                        flag:"🇮🇹", ts:Date.UTC(2026,8,6,13,0)},
+  {name:"GP de Madrid",         circuit:"Madring",                      flag:"🇪🇸", ts:Date.UTC(2026,8,13,13,0)},
+  {name:"GP de Singapour",      circuit:"Marina Bay Street",            flag:"🇸🇬", ts:Date.UTC(2026,8,20,12,0)},
+  {name:"GP des États-Unis",    circuit:"Circuit of the Americas",      flag:"🇺🇸", ts:Date.UTC(2026,9,18,19,0)},
+  {name:"GP du Mexique",        circuit:"Autodromo Hermanos Rodriguez",  flag:"🇲🇽", ts:Date.UTC(2026,9,25,20,0)},
+  {name:"GP du Brésil",         circuit:"Interlagos",                   flag:"🇧🇷", ts:Date.UTC(2026,10,8,17,0)},
+  {name:"GP de Las Vegas",      circuit:"Las Vegas Strip Circuit",      flag:"🇺🇸", ts:Date.UTC(2026,10,21,6,0)},
+  {name:"GP du Qatar",          circuit:"Losail International",         flag:"🇶🇦", ts:Date.UTC(2026,10,29,14,0)},
+  {name:"GP d'Abu Dhabi",       circuit:"Yas Marina Circuit",           flag:"🇦🇪", ts:Date.UTC(2026,11,6,13,0)},
 ];
 
 const TEAMS = [
-  {name:"McLaren",       engine:"Mercedes", color:"#FF8000", p1:"Lando Norris",    f1:"🇬🇧", p2:"Oscar Piastri",     f2:"🇦🇺", note:"Favoris au titre constructeurs"},
-  {name:"Ferrari",       engine:"Ferrari",  color:"#E10600", p1:"Charles Leclerc", f1:"🇲🇨", p2:"Lewis Hamilton",    f2:"🇬🇧", note:"Duo star, Hamilton 1re saison Ferrari"},
-  {name:"Red Bull",      engine:"Red Bull/Ford", color:"#1E3A8A", p1:"Max Verstappen", f1:"🇳🇱", p2:"Isack Hadjar",  f2:"🇫🇷", note:"Hadjar promu rookie"},
-  {name:"Mercedes",      engine:"Mercedes", color:"#00D2BE", p1:"George Russell",  f1:"🇬🇧", p2:"Kimi Antonelli",   f2:"🇮🇹", note:"Antonelli rookie prometteur"},
-  {name:"Aston Martin",  engine:"Honda",    color:"#006F62", p1:"Fernando Alonso", f1:"🇪🇸", p2:"Lance Stroll",     f2:"🇨🇦", note:"Adrian Newey directeur technique"},
-  {name:"Alpine",        engine:"Mercedes", color:"#0093CC", p1:"Pierre Gasly",    f1:"🇫🇷", p2:"Franco Colapinto", f2:"🇦🇷", note:"Moteur Mercedes pour 2026"},
-  {name:"Haas",          engine:"Ferrari",  color:"#B6BABD", p1:"Esteban Ocon",    f1:"🇫🇷", p2:"Oliver Bearman",   f2:"🇬🇧", note:"Sponsor-titre Toyota"},
-  {name:"Racing Bulls",  engine:"Red Bull/Ford", color:"#4E7C9B", p1:"Liam Lawson", f1:"🇳🇿", p2:"Arvid Lindblad", f2:"🇸🇪", note:"Lindblad rookie"},
-  {name:"Williams",      engine:"Mercedes", color:"#005AFF", p1:"Carlos Sainz",    f1:"🇪🇸", p2:"Alexander Albon",  f2:"🇹🇭", note:"Sainz prolongé"},
-  {name:"Audi",          engine:"Audi",     color:"#999999", p1:"Nico Hülkenberg", f1:"🇩🇪", p2:"Gabriel Bortoleto",f2:"🇧🇷", note:"1re saison sous marque Audi"},
-  {name:"Cadillac",      engine:"Ferrari",  color:"#B01414", p1:"Valtteri Bottas", f1:"🇫🇮", p2:"Sergio Pérez",     f2:"🇲🇽", note:"11e écurie, 1re depuis 2016"},
+  {name:"McLaren",      engine:"Mercedes",    color:"#FF8000", p1:"Lando Norris",    f1:"🇬🇧", p2:"Oscar Piastri",     f2:"🇦🇺", note:"Favoris au titre constructeurs"},
+  {name:"Ferrari",      engine:"Ferrari",     color:"#E10600", p1:"Charles Leclerc", f1:"🇲🇨", p2:"Lewis Hamilton",    f2:"🇬🇧", note:"Hamilton 1re saison Ferrari"},
+  {name:"Red Bull",     engine:"Red Bull/Ford",color:"#1E3A8A",p1:"Max Verstappen",  f1:"🇳🇱", p2:"Isack Hadjar",      f2:"🇫🇷", note:"Hadjar promu rookie"},
+  {name:"Mercedes",     engine:"Mercedes",    color:"#00D2BE", p1:"George Russell",  f1:"🇬🇧", p2:"Kimi Antonelli",   f2:"🇮🇹", note:"Antonelli rookie prometteur"},
+  {name:"Aston Martin", engine:"Honda",       color:"#006F62", p1:"Fernando Alonso", f1:"🇪🇸", p2:"Lance Stroll",     f2:"🇨🇦", note:"Adrian Newey directeur technique"},
+  {name:"Alpine",       engine:"Mercedes",    color:"#0093CC", p1:"Pierre Gasly",    f1:"🇫🇷", p2:"Franco Colapinto", f2:"🇦🇷", note:"Moteur Mercedes pour 2026"},
+  {name:"Haas",         engine:"Ferrari",     color:"#B6BABD", p1:"Esteban Ocon",    f1:"🇫🇷", p2:"Oliver Bearman",   f2:"🇬🇧", note:"Sponsor-titre Toyota"},
+  {name:"Racing Bulls", engine:"Red Bull/Ford",color:"#4E7C9B",p1:"Liam Lawson",     f1:"🇳🇿", p2:"Arvid Lindblad",   f2:"🇸🇪", note:"Lindblad rookie"},
+  {name:"Williams",     engine:"Mercedes",    color:"#005AFF", p1:"Carlos Sainz",    f1:"🇪🇸", p2:"Alexander Albon",  f2:"🇹🇭", note:"Sainz prolongé"},
+  {name:"Audi",         engine:"Audi",        color:"#999999", p1:"Nico Hülkenberg", f1:"🇩🇪", p2:"Gabriel Bortoleto",f2:"🇧🇷", note:"1re saison sous marque Audi"},
+  {name:"Cadillac",     engine:"Ferrari",     color:"#B01414", p1:"Valtteri Bottas", f1:"🇫🇮", p2:"Sergio Pérez",     f2:"🇲🇽", note:"11e écurie, 1re depuis 2016"},
 ];
 
-// ── NAVIGATION ────────────────────────────────────────────────────────────────
+// ── NAVIGATION ─────────────────────────────────────────
 function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.nav-center button').forEach(b => b.classList.remove('active'));
   document.getElementById('page-' + id).classList.add('active');
-  const navBtn = document.getElementById('nav-' + id);
-  if (navBtn) navBtn.classList.add('active');
-  if (id === 'calendar') renderCalendar();
+  const nb = document.getElementById('nav-' + id);
+  if (nb) nb.classList.add('active');
+  if (id === 'calendar')  renderCalendar();
   if (id === 'countdown') startCountdown();
-  if (id === 'teams') renderTeams();
-  if (id === 'results') fetchResults();
-  if (id === 'player') startPlayer();
-  if (id === 'settings') loadSettings();
+  if (id === 'teams')     renderTeams();
+  if (id === 'results')   fetchResults();
+  if (id === 'player')    startPlayer();
+  if (id === 'settings')  loadSettings();
   window.scrollTo(0, 0);
 }
 
-// ── TOAST ─────────────────────────────────────────────────────────────────────
+// ── TOAST ──────────────────────────────────────────────
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2500);
 }
+window.showToast = showToast;
 
-// ── CALENDRIER ────────────────────────────────────────────────────────────────
+// ── MODAL ──────────────────────────────────────────────
+function openModal() {
+  document.getElementById('modal-overlay').classList.add('open');
+  document.getElementById('auth-email').focus();
+}
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.getElementById('modal-error').textContent = '';
+}
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+}
+window.openModal = openModal;
+window.closeModal = closeModal;
+window.closeModalOutside = closeModalOutside;
+
+// ── CALENDRIER ─────────────────────────────────────────
 function renderCalendar() {
   const container = document.getElementById('calendar-list');
   if (container.children.length > 0) return;
   const now = Date.now();
   let foundNext = false;
-  const fmt = new Intl.DateTimeFormat('fr-FR', {day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit',timeZoneName:'short'});
-
+  const fmt = new Intl.DateTimeFormat('fr-FR',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
   RACES.forEach((r, i) => {
     const past = r.ts < now;
     const next = !past && !foundNext;
     if (next) foundNext = true;
     const card = document.createElement('div');
-    card.className = 'race-card' + (next ? ' next' : '') + (past ? ' past' : '');
-    card.style.animationDelay = (i * 0.04) + 's';
+    card.className = 'race-card' + (next?' next':'') + (past?' past':'');
+    card.style.animationDelay = (i*.04)+'s';
     card.innerHTML = `
-      ${next ? '<div class="race-badge">▶ PROCHAINE COURSE</div>' : ''}
-      <div class="race-row">
-        <span class="race-flag">${r.flag}</span>
-        <span class="race-name">${r.name}</span>
-      </div>
+      ${next?'<div class="race-badge">▶ PROCHAINE COURSE</div>':''}
+      <div class="race-row"><span class="race-flag">${r.flag}</span><span class="race-name">${r.name}</span></div>
       <div class="race-circuit">${r.circuit}</div>
       <div class="race-date">${fmt.format(new Date(r.ts))}</div>
-      ${!past ? `<button class="notif-btn" onclick="scheduleNotif(this, '${r.name}', ${r.ts})">🔔 Activer notifications</button>` : ''}
-    `;
+      ${!past?`<button class="notif-btn" onclick="scheduleNotif(this,'${r.name}',${r.ts})">🔔 Activer notifications</button>`:''}`;
     container.appendChild(card);
   });
 }
 
 function scheduleNotif(btn, name, ts) {
-  if (!('Notification' in window)) { showToast('Notifications non supportées'); return; }
-  Notification.requestPermission().then(perm => {
-    if (perm !== 'granted') { showToast('Permission refusée'); return; }
-    const delay30 = ts - Date.now() - 30 * 60 * 1000;
-    const delayNow = ts - Date.now();
-    if (delay30 > 0) setTimeout(() => new Notification('⏱ Course dans 30 min', {body: name + ' démarre bientôt !'}), delay30);
-    if (delayNow > 0) setTimeout(() => new Notification('🏁 Course en cours !', {body: name + ' vient de commencer !'}), delayNow);
-    btn.textContent = '✓ Notifications activées';
-    btn.classList.add('active');
+  if (!('Notification' in window)) { showToast('Non supporté'); return; }
+  Notification.requestPermission().then(p => {
+    if (p !== 'granted') { showToast('Permission refusée'); return; }
+    const d30 = ts - Date.now() - 1800000;
+    const d0  = ts - Date.now();
+    if (d30 > 0) setTimeout(() => new Notification('⏱ Course dans 30 min', {body: name+' démarre bientôt !'}), d30);
+    if (d0  > 0) setTimeout(() => new Notification('🏁 Course en cours !',  {body: name+' vient de commencer !'}), d0);
+    btn.textContent = '✓ Activées'; btn.classList.add('active');
     showToast('Notifications activées pour ' + name);
   });
 }
+window.scheduleNotif = scheduleNotif;
 
-// ── COUNTDOWN ─────────────────────────────────────────────────────────────────
+// ── COUNTDOWN ──────────────────────────────────────────
 let cdInterval = null;
 function startCountdown() {
   const now = Date.now();
   const next = RACES.find(r => r.ts > now);
   if (!next) { document.getElementById('cd-race').textContent = 'Saison terminée'; return; }
   document.getElementById('cd-race').textContent = next.name;
-  const fmt = new Intl.DateTimeFormat('fr-FR', {weekday:'long',day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  const fmt = new Intl.DateTimeFormat('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
   document.getElementById('cd-date').textContent = fmt.format(new Date(next.ts));
   if (cdInterval) clearInterval(cdInterval);
   cdInterval = setInterval(() => {
     const diff = next.ts - Date.now();
     if (diff <= 0) { clearInterval(cdInterval); return; }
-    const d = Math.floor(diff / 86400000);
-    const h = Math.floor((diff % 86400000) / 3600000);
-    const m = Math.floor((diff % 3600000) / 60000);
-    const s = Math.floor((diff % 60000) / 1000);
-    document.getElementById('cd-days').textContent  = String(d).padStart(2,'0');
-    document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
-    document.getElementById('cd-mins').textContent  = String(m).padStart(2,'0');
-    document.getElementById('cd-secs').textContent  = String(s).padStart(2,'0');
+    document.getElementById('cd-days') .textContent = String(Math.floor(diff/86400000)).padStart(2,'0');
+    document.getElementById('cd-hours').textContent = String(Math.floor(diff%86400000/3600000)).padStart(2,'0');
+    document.getElementById('cd-mins') .textContent = String(Math.floor(diff%3600000/60000)).padStart(2,'0');
+    document.getElementById('cd-secs') .textContent = String(Math.floor(diff%60000/1000)).padStart(2,'0');
   }, 1000);
 }
 
-// ── ÉQUIPES ───────────────────────────────────────────────────────────────────
+// ── ÉQUIPES ────────────────────────────────────────────
 function renderTeams() {
-  const container = document.getElementById('teams-list');
-  if (container.children.length > 0) return;
+  const c = document.getElementById('teams-list');
+  if (c.children.length > 0) return;
   TEAMS.forEach((t, i) => {
     const card = document.createElement('div');
-    card.className = 'team-card';
-    card.style.animationDelay = (i * 0.05) + 's';
+    card.className = 'team-card'; card.style.animationDelay = (i*.05)+'s';
     card.innerHTML = `
       <div class="team-stripe" style="background:${t.color}"></div>
       <div class="team-body">
@@ -577,91 +773,70 @@ function renderTeams() {
           <div class="team-driver"><span class="team-driver-flag">${t.f2}</span><span class="team-driver-name">${t.p2}</span></div>
         </div>
         <div class="team-note">ℹ ${t.note}</div>
-      </div>
-    `;
-    container.appendChild(card);
+      </div>`;
+    c.appendChild(card);
   });
 }
 
-// ── RÉSULTATS ─────────────────────────────────────────────────────────────────
+// ── RÉSULTATS ──────────────────────────────────────────
 let resultsFetched = false;
 function fetchResults() {
-  if (resultsFetched) return;
-  resultsFetched = true;
+  if (resultsFetched) return; resultsFetched = true;
   fetch('https://api.jolpi.ca/ergast/f1/2026/results.json?limit=100')
     .then(r => r.json())
     .then(data => {
       const races = data.MRData.RaceTable.Races;
-      const container = document.getElementById('results-list');
-      container.innerHTML = '';
-      if (!races.length) { container.innerHTML = '<div class="loading">Aucun résultat disponible pour le moment.</div>'; return; }
+      const c = document.getElementById('results-list'); c.innerHTML = '';
+      if (!races.length) { c.innerHTML = '<div class="loading">Aucun résultat disponible.</div>'; return; }
       const medals = ['🥇','🥈','🥉'];
       [...races].reverse().forEach((race, i) => {
         const card = document.createElement('div');
-        card.className = 'result-card';
-        card.style.animationDelay = (i * 0.05) + 's';
-        const podium = race.Results.slice(0,3).map((r, j) => `
+        card.className = 'result-card'; card.style.animationDelay = (i*.05)+'s';
+        const podium = race.Results.slice(0,3).map((r,j) => `
           <div class="result-row">
             <span class="result-medal">${medals[j]}</span>
-            <div>
-              <div class="result-driver">${r.Driver.familyName}</div>
-              <div class="result-team">${r.Constructor.name}${r.Time ? ' · ' + r.Time.time : ''}</div>
-            </div>
+            <div><div class="result-driver">${r.Driver.familyName}</div>
+            <div class="result-team">${r.Constructor.name}${r.Time?' · '+r.Time.time:''}</div></div>
           </div>`).join('');
-        card.innerHTML = `
-          <div class="result-stripe"></div>
-          <div class="result-body">
-            <div class="result-name">${race.raceName}</div>
-            <div class="result-date">${race.date}</div>
-            <div class="result-podium">${podium}</div>
-          </div>`;
-        container.appendChild(card);
+        card.innerHTML = `<div class="result-stripe"></div><div class="result-body">
+          <div class="result-name">${race.raceName}</div>
+          <div class="result-date">${race.date}</div>
+          <div class="result-podium">${podium}</div></div>`;
+        c.appendChild(card);
       });
     })
-    .catch(() => {
-      document.getElementById('results-list').innerHTML =
-        '<div class="loading">Erreur réseau. Vérifiez votre connexion.</div>';
-    });
+    .catch(() => { document.getElementById('results-list').innerHTML = '<div class="loading">Erreur réseau.</div>'; });
 }
 
-// ── PARAMÈTRES ────────────────────────────────────────────────────────────────
-function loadSettings() {
-  const saved = localStorage.getItem('stream_url') || DEFAULT_URL;
-  document.getElementById('stream-url-input').value = saved;
-}
-function saveUrl() {
-  const url = document.getElementById('stream-url-input').value.trim();
-  if (!url) { showToast('URL vide !'); return; }
-  localStorage.setItem('stream_url', url);
-  showToast('URL sauvegardée ✓');
-}
-function resetUrl() {
-  document.getElementById('stream-url-input').value = DEFAULT_URL;
-  localStorage.setItem('stream_url', DEFAULT_URL);
-  showToast('URL réinitialisée ✓');
-}
-
-// ── PLAYER ────────────────────────────────────────────────────────────────────
+// ── PLAYER ─────────────────────────────────────────────
 function startPlayer() {
   const url = localStorage.getItem('stream_url') || DEFAULT_URL;
   const video = document.getElementById('video-player');
   document.getElementById('player-url-display').textContent = url;
-  if (typeof Hls !== 'undefined' && Hls.isSupported() && url.includes('.m3u8')) {
-    const hls = new Hls();
-    hls.loadSource(url);
-    hls.attachMedia(video);
-  } else {
-    video.src = url;
-    video.play().catch(() => {});
-  }
+  if (window.Hls && Hls.isSupported() && url.includes('.m3u8')) {
+    const hls = new Hls(); hls.loadSource(url); hls.attachMedia(video);
+  } else { video.src = url; video.play().catch(()=>{}); }
 }
-
-// Charger HLS.js pour le player web
 const hlsScript = document.createElement('script');
 hlsScript.src = 'https://cdn.jsdelivr.net/npm/hls.js@latest';
 document.head.appendChild(hlsScript);
 
-// Init
+// ── PARAMÈTRES ─────────────────────────────────────────
+function loadSettings() {
+  document.getElementById('stream-url-input').value = localStorage.getItem('stream_url') || DEFAULT_URL;
+}
+function saveUrl() {
+  const url = document.getElementById('stream-url-input').value.trim();
+  if (!url) { showToast('URL vide !'); return; }
+  localStorage.setItem('stream_url', url); showToast('URL sauvegardée ✓');
+}
+function resetUrl() {
+  document.getElementById('stream-url-input').value = DEFAULT_URL;
+  localStorage.setItem('stream_url', DEFAULT_URL); showToast('URL réinitialisée ✓');
+}
+window.showPage=showPage; window.saveUrl=saveUrl; window.resetUrl=resetUrl;
+window.switchTab = function(){};  // sera écrasé par le module Firebase
+
 loadSettings();
 </script>
 </body>
