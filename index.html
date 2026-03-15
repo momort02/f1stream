@@ -126,6 +126,12 @@
     font-size: 15px; margin-top: 12px;
   }
   .btn.btn-live:hover { background: #c00; transform: none; box-shadow: 0 0 30px rgba(225,6,0,.4); }
+  .btn.btn-download {
+    background: transparent; border: 2px solid var(--faint); border-left: 2px solid var(--faint);
+    justify-content: center; text-decoration: none; color: var(--muted);
+    font-size: 12px; letter-spacing: 2px;
+  }
+  .btn.btn-download:hover { border-color: var(--red); color: white; transform: none; background: #0f0f0f; }
 
   /* SECTION COMMUNE */
   .section { max-width: 800px; margin: 0 auto; padding: 48px 24px; }
@@ -330,6 +336,7 @@
       <button class="btn" onclick="showPage('results')">🏆 &nbsp;Résultats</button>
       <button class="btn" onclick="showPage('settings')">⚙ &nbsp;Paramètres</button>
       <button class="btn btn-live" onclick="showPage('player')">▶ &nbsp;REGARDER LE LIVE</button>
+      <a class="btn btn-download" href="F1live.apk" download="F1live.apk">⬇ &nbsp;TÉLÉCHARGER L'APP ANDROID</a>
     </div>
   </div>
 </div>
@@ -657,17 +664,5 @@ document.head.appendChild(hlsScript);
 // Init
 loadSettings();
 </script>
-</body>
-</html>
-    });
-} 
-else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-    video.src = videoSrc;
-    video.addEventListener('loadedmetadata',function() {
-        video.play();
-    });
-}
-</script>
-<!-- I dont host any videos -->
 </body>
 </html>
